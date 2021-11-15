@@ -1,0 +1,25 @@
+CC=g++
+INCLIB=numerical_solver.h newton_raphson_solve.h quadratic_solve.h 
+# "If any of second_inheritance.o pet.o animal.o human.o have changed
+# since second_i changed, then rebuild second_i ... and the following
+# lines tell you how to do it!"
+
+main_i:       main.o numerical_solver.o newton_raphson_solve.o quadratic_solve.o
+		$(CC) -o main_i main.o numerical_solver.o newton_raphson_solve.o quadratic_solve.o
+
+# Standard rules ... because we have four compiles all of which can be
+# done with the same template / pattern
+
+%.o:            %.cpp $(INCLIB)
+		$(CC) -std=c++11 -c -o $@ $<
+
+# This "make test" is a bit informal - but it does show people how to
+# run the code and tells them the results to expect.
+
+test:
+	@./main_i
+	@echo "Test Completed - should have give 4 line report"
+
+clean:
+	@rm -f *.o
+	@echo "All ship shape and Severn Beach fashion"
