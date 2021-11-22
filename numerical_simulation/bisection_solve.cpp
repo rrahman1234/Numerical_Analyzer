@@ -1,5 +1,6 @@
 #include "numerical_solver.h"
 #include "newton_raphson_solve.h"
+#include "bisection_solve.h"
 #include<math.h>
 #include<iostream>
 #include<vector>
@@ -7,7 +8,7 @@
 
 using namespace std;
 
-bisection_solve::bisection_solve(double X_left, double X_right, int eq_order, int Max_Iter, double error_tol, vector<double>& coeffs, vector<double>& diff_coefficient):x_left(X_left), x_right(X_right), m_Max_Iter(Max_Iter), m_error_tol(error_tol), order(eq_order), coefficient(coeffs), diff_coefficients(diff_coeffs)
+bisection_solve::bisection_solve(double X_left, double X_right, int eq_order, int Max_Iter, double error_tol, vector<double>& coeffs):x_left(X_left), x_right(X_right), m_Max_Iter(Max_Iter), m_error_tol(error_tol), order(eq_order), coefficient(coeffs)
 {
 	cout << "Derived Class: Bisection Method Class \n";
 }
@@ -15,7 +16,6 @@ bisection_solve::bisection_solve(double X_left, double X_right, int eq_order, in
 
 vector<double> bisection_solve::solve()
 {
-	vector<double> solution;
 	cout << "Solve \n";
 
 	double x_mid;
@@ -24,12 +24,13 @@ vector<double> bisection_solve::solve()
 	f1 = function(x_left, coefficient);
 	f2 = function(x_right, coefficient);
 
-	if (f1 * f2 >= 0) {
-      		cout << "You have not assumed right a and b\n";
-      		return;
+	if (f1 * f2 >= 0) 
+	{
+      		cout << "You have not assumed right a and b\n" << "\n";
    	}
-
-	while ((x_right-x_left) >= m_error_tol) {
+	
+	do 
+	{
 	      // Find middle point
 	      x_mid = (x_right + x_left)/2;
 	      // Check if middle point is root
@@ -40,9 +41,12 @@ vector<double> bisection_solve::solve()
 		 x_left = x_mid;
 	      else
 		 x_right = x_mid;
-	}
-	cout << "The value of root is : " << x_mid;
-
-
+	} while ((x_right-x_left) >= m_error_tol);
+	
+	cout << "The value of root is : " << x_mid << "\n";
+ 	
+	solution.push_back(x_mid);
+	return solution;
+}
 	
 
