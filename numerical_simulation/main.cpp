@@ -25,6 +25,7 @@ int main()
 	coff.push_back(1.0);
 	coff.push_back(-2.0);
 	coff.push_back(3.0);
+    
 	//diff_coff.push_back(3.0);
 	//diff_coff.push_back(2.0);
 
@@ -34,6 +35,7 @@ int main()
 
 	bisection_solve BSolv(-10, 20, 3, 50, 0.001, coff); 
 	BSolv.solve();
+    BSolv.print_result();
 
 	return 0;
 }

@@ -1,3 +1,4 @@
+
 CC=g++
 INCLIB=numerical_solver.h newton_raphson_solve.h quadratic_solve.h bisection_solve.h 
 # "If any of second_inheritance.o pet.o animal.o human.o have changed

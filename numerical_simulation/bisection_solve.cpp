@@ -14,39 +14,50 @@ bisection_solve::bisection_solve(double X_left, double X_right, int eq_order, in
 }
 
 
+
 vector<double> bisection_solve::solve()
 {
 	cout << "Solve \n";
 
 	double x_mid;
 	double f1, f2;
+    int Iter = 0;
 
 	f1 = function(x_left, coefficient);
 	f2 = function(x_right, coefficient);
 
-	if (f1 * f2 >= 0) 
-	{
-      		cout << "You have not assumed right a and b\n" << "\n";
-   	}
-	
-	do 
-	{
-	      // Find middle point
-	      x_mid = (x_right + x_left)/2;
-	      // Check if middle point is root
-	      if (function(x_mid, coefficient) == 0.0)
-		 break;
-	       // Decide the side to repeat the steps
-	      else if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
-		 x_left = x_mid;
-	      else
-		 x_right = x_mid;
-	} while ((x_right-x_left) >= m_error_tol);
-	
-	cout << "The value of root is : " << x_mid << "\n";
- 	
-	solution.push_back(x_mid);
-	return solution;
+	try
+    {
+        if (f1 * f2 >= 0) 
+	    {
+            throw "You have not assumed right a and b\n";
+        }
+     }
+    
+    catch (const char* msg) 
+    {
+        cerr << msg << endl;
+    }
+    
+    do 
+    {
+          // Find middle point
+          x_mid = (x_right + x_left)/2;
+          // Check if middle point is root
+          if (function(x_mid, coefficient) == 0.0)
+            break;
+           // Decide the side to repeat the steps
+          else if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
+            x_left = x_mid;
+          else
+            x_right = x_mid;
+         Iter++;
+         cout << "Iteration:" << Iter << "\n";
+    } while ((x_right-x_left) >= m_error_tol);
+    
+    cout << "The value of root is : " << x_mid << "\n";
+    solution.push_back(x_mid);
+    return solution;
 }
 	
 

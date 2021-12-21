@@ -20,6 +20,7 @@ class numerical_solver
 		numerical_solver(double x, int order);
 		virtual vector<double> solve() = 0;
 		void print_result();
+        void print_list();
 		//vector<pair<double, double>> function(double x1, vector<double> poly_coeff, vector<double> diff_poly_coeff);
 		double function(double x1, vector<double> poly_coeff);
 };

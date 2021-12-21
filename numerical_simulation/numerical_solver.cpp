@@ -29,9 +29,7 @@ void numerical_solver::print_result()
 	{
 		cout << s << "\n";
 	}
-
 }
-
 
 double numerical_solver::function(double x1, vector<double> poly_coeff)
 {
@@ -52,6 +50,7 @@ double numerical_solver::function(double x1, vector<double> poly_coeff)
 
 	return func;
 }
+
 
 
 
