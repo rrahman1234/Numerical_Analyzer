@@ -35,7 +35,9 @@ int main()
 
 	bisection_solve BSolv(-10, 20, 3, 50, 0.001, coff); 
 	BSolv.solve();
-    BSolv.print_result();
+    BSolv.get_list(-10, coff);
+    BSolv.get_list(20, coff);
+    //BSolv.print_result();
 
 	return 0;
 }
