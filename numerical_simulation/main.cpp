@@ -22,9 +22,10 @@ int main()
 	//Newton Raphson
 	vector<double> coff;
 	//vector<double> diff_coff;
-	coff.push_back(1.0);
-	coff.push_back(-6.0);
 	coff.push_back(3.0);
+	coff.push_back(0.0);
+	coff.push_back(-2.0);
+	coff.push_back(1.0);
     
 	//diff_coff.push_back(3.0);
 	//diff_coff.push_back(2.0);
@@ -33,10 +34,10 @@ int main()
 	//NR_Sol.solve();
 	//NR_Sol.function(X, coff);
 
-	bisection_solve BSolv(1, 2, 3, 50, 0.001, coff); 
+	bisection_solve BSolv(-10, 20, 3, 100, 0.0001, coff); 
 	BSolv.solve();
     //BSolv.get_list(2, coff);
-    BSolv.get_list(3, coff);
+    //BSolv.get_list(3, coff);
 
 	return 0;
 }

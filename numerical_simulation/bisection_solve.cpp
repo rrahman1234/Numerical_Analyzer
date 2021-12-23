@@ -36,31 +36,24 @@ vector<double> bisection_solve::solve()
     //{
     //    cerr << msg << endl;
     //}
+	f1 = function(x_left, coefficient);
+	f2 = function(x_right, coefficient);
+    if (f1 * f2 >= 0) 
+	{
+        cout << "Choose new interval" << endl;
+        exit(0);
+    }
+    x_mid = x_left;
     do 
     {
-	    f1 = function(x_left, coefficient);
-	    f2 = function(x_right, coefficient);
-        if (f1 * f2 >= 0) 
-	    {
-            cout << "Choose new interval" << endl;
-            break;
-        }
+        x_mid = (x_right + x_left)/2;
+        if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
+          x_left = x_mid;
         else
-        {
-            // Find middle point
-            x_mid = (x_right + x_left)/2;
-            // Check if middle point is root
-            //if (function(x_mid, coefficient) == 0.0)
-                //break;
-            // Decide the side to repeat the steps
-            if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
-              x_left = x_mid;
-            else
-              x_right = x_mid;
-            cout << "Iteration:" << Iter << "\n";
+          x_right = x_mid;
+        cout << "Iteration:" << Iter << " Left: " << x_left << " " << " Right: " << x_right << " Mid: " << x_mid << " Function: " << function(x_mid, coefficient) << "  diff: " << (x_right - x_left) << "---" << endl;
             Iter++;
-        }
-    } while ((x_right-x_left) >= m_error_tol && function(x_mid, coefficient) != 0.0);
+    } while ((x_right-x_left) >= m_error_tol);
     cout << "The value of root is : " << x_mid << "\n";
     solution.push_back(x_mid);
     return solution;
