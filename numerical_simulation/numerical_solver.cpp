@@ -24,8 +24,6 @@ numerical_solver::numerical_solver(double x, int order): x(x), order(order)
 
 void numerical_solver:: get_list(double x1, vector<double> poly_coeff)
 {
-    cout << "Printing Equation \n" << endl;
-
     int i = 0;
     for(auto it: poly_coeff)
 	{
@@ -62,13 +60,12 @@ double numerical_solver::function(double x1, vector<double> poly_coeff)
 	for(auto it: poly_coeff)
 	{
 		fn.push_back(poly_coeff[i]*pow(x1, i));	
-		i += 1;
+        i += 1;
 
 	}
 
 	func = accumulate(fn.begin(), fn.end(), 0.0);
 	
-
 	return func;
 }
 

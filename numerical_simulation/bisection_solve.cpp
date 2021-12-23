@@ -23,38 +23,44 @@ vector<double> bisection_solve::solve()
 	double f1, f2;
     int Iter = 0;
 
-	f1 = function(x_left, coefficient);
-	f2 = function(x_right, coefficient);
 
-	try
-    {
-        if (f1 * f2 >= 0) 
-	    {
-            throw "You have not assumed right a and b\n";
-        }
-     }
-    
-    catch (const char* msg) 
-    {
-        cerr << msg << endl;
-    }
-    
+	//try
+    //{
+    //    if (f1 * f2 >= 0) 
+	//    {
+    //        throw "You have not assumed right a and b\n";
+    //    }
+    // }
+    //
+    //catch (const char* msg) 
+    //{
+    //    cerr << msg << endl;
+    //}
     do 
     {
-          // Find middle point
-          x_mid = (x_right + x_left)/2;
-          // Check if middle point is root
-          if (function(x_mid, coefficient) == 0.0)
+	    f1 = function(x_left, coefficient);
+	    f2 = function(x_right, coefficient);
+        if (f1 * f2 >= 0) 
+	    {
+            cout << "Choose new interval" << endl;
             break;
-           // Decide the side to repeat the steps
-          else if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
-            x_left = x_mid;
-          else
-            x_right = x_mid;
-         Iter++;
-         cout << "Iteration:" << Iter << "\n";
-    } while ((x_right-x_left) >= m_error_tol);
-    
+        }
+        else
+        {
+            // Find middle point
+            x_mid = (x_right + x_left)/2;
+            // Check if middle point is root
+            //if (function(x_mid, coefficient) == 0.0)
+                //break;
+            // Decide the side to repeat the steps
+            if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
+              x_left = x_mid;
+            else
+              x_right = x_mid;
+            cout << "Iteration:" << Iter << "\n";
+            Iter++;
+        }
+    } while ((x_right-x_left) >= m_error_tol && function(x_mid, coefficient) != 0.0);
     cout << "The value of root is : " << x_mid << "\n";
     solution.push_back(x_mid);
     return solution;
