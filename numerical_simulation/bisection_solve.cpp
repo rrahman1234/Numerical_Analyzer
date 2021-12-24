@@ -48,9 +48,9 @@ vector<double> bisection_solve::solve()
     {
         x_mid = (x_right + x_left)/2;
         if (function(x_mid, coefficient)*function(x_left, coefficient) < 0)
-          x_left = x_mid;
-        else
           x_right = x_mid;
+        else
+          x_left = x_mid;
         cout << "Iteration:" << Iter << " Left: " << x_left << " " << " Right: " << x_right << " Mid: " << x_mid << " Function: " << function(x_mid, coefficient) << "  diff: " << (x_right - x_left) << "---" << endl;
             Iter++;
     } while ((x_right-x_left) >= m_error_tol);

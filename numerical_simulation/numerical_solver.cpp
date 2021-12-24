@@ -59,7 +59,7 @@ double numerical_solver::function(double x1, vector<double> poly_coeff)
 
 	for(auto it: poly_coeff)
 	{
-		fn.push_back(poly_coeff[i]*pow(x1, i));	
+        fn.push_back(poly_coeff[i]*pow(x1, i));	
         i += 1;
 
 	}
