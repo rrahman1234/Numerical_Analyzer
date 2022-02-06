@@ -13,7 +13,7 @@ int main()
 {
 	double X = 3.0;
 	int order = 2;
-        //Quadratic Solve
+    //Quadratic Solve
 	//double coff[] = {1.0, 2.0};
 	//quadratic_solve quad_Sol(X,order,coff);
 	//quad_Sol.solve();
