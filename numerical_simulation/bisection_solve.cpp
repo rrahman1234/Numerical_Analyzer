@@ -24,18 +24,6 @@ vector<double> bisection_solve::solve()
     int Iter = 0;
 
 
-	//try
-    //{
-    //    if (f1 * f2 >= 0) 
-	//    {
-    //        throw "You have not assumed right a and b\n";
-    //    }
-    // }
-    //
-    //catch (const char* msg) 
-    //{
-    //    cerr << msg << endl;
-    //}
 	f1 = function(x_left, coefficient);
 	f2 = function(x_right, coefficient);
     if (f1 * f2 >= 0) 
