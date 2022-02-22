@@ -16,10 +16,12 @@ class linear_solve: public numerical_solver
     private:
         int num_rows, num_cols;
         int order;
-        mat A; 
+        mat EqnMat;
+        vec b_right_side;
 
     public:
-        linear_solve(mat LinEqs, int eq_order, int num_rows, int num_cols);
+        typedef std::vector<double> stdvec;
+        linear_solve(mat LinEqs, vec b_eq, int eq_order, int num_rows, int num_cols);
 		vector<double> solve();
 };
 

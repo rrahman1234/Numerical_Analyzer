@@ -26,8 +26,13 @@ int main()
     int n_cols = 2;
 	mat Eq(n_rows, n_cols);
     Eq.fill(0.0);
-    linear_solve LinSolv(Eq, order, n_rows, n_cols);
-    LinSolv.solve();
+    Eq = {{3, 2}, {7, 1}};
+    vec b(n_rows);
+    b.fill(0.0);
+    b = {16, 19};
+    linear_solve LinSolv(Eq, b, order, n_rows, n_cols);
+    vector<double> LinSolve = LinSolv.solve();
+    LinSolv.print_result();
 
     ////Newton Raphson
 	//vector<double> coff;

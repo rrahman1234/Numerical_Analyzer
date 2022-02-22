@@ -10,7 +10,7 @@ using namespace std;
 using namespace arma;
 
 
-linear_solve::linear_solve(mat LinEqs, int eq_order, int n_rows, int n_cols):A(LinEqs), order(eq_order), num_rows(n_rows), num_cols(n_cols)
+linear_solve::linear_solve(mat LinEqs, vec b_eq, int eq_order, int n_rows, int n_cols): EqnMat(LinEqs), b_right_side(b_eq), order(eq_order), num_rows(n_rows), num_cols(n_cols)
 {
     cout << "Linear Solveer Class" << endl;
 }
@@ -18,7 +18,20 @@ linear_solve::linear_solve(mat LinEqs, int eq_order, int n_rows, int n_cols):A(L
 vector<double> linear_solve::solve()
 {
     cout << "Solving" << endl;
-    vector<double> v = {1.0};
+   
+    EqnMat.print("EqnMat:");
+    b_right_side.print("b_right:");
 
-    return v;
+    vec EqSol = arma::solve(EqnMat, b_right_side);
+    EqSol.print("Solution:");
+
+    //vector<double> LinSolution(num_rows);
+
+    for (size_t i = 0; i < EqSol.n_rows; ++i) {
+        double var = EqSol(i);
+        solution.push_back(var);
+    }
+    
+
+    return solution;
 }
