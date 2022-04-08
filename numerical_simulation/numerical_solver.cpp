@@ -31,14 +31,12 @@ void numerical_solver:: get_list(double x1, vector<double> poly_coeff)
 		i += 1;
 
 	}
-    
     cout << " ****** Printing Terms ******" << endl; 
     for (const auto& it : equation_components)
     {
         cout << "Coefficient:" << it.first.first << " Value of different terms:" << it.first.second << " Power of term: " << it.second << endl;
     }
     cout << " ****** Printing Terms: Done ******" << endl; 
-    
 } 
 
 void numerical_solver::print_result()

@@ -19,7 +19,7 @@ class numerical_solver
 	public:
 		numerical_solver();
 		numerical_solver(double x, int order);
-		virtual vector<double> solve() = 0;
+		//virtual vector<double> solve() = 0;
 		void print_result();
         void get_list(double x1, vector<double> poly_coeff);
 		double function(double x1, vector<double> poly_coeff);

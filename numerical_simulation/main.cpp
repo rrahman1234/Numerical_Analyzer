@@ -6,10 +6,12 @@
 #include<iostream>
 #include<vector>
 #include"armadillo"
+#include <Eigen/Dense>
 
 
 using namespace std;
 using namespace arma;
+using namespace Eigen;
 
 int main()
 {
@@ -24,15 +26,32 @@ int main()
     
     int n_rows = 2;
     int n_cols = 2;
-	mat Eq(n_rows, n_cols);
-    Eq.fill(0.0);
-    Eq = {{3, 2}, {7, 1}};
-    vec b(n_rows);
-    b.fill(0.0);
-    b = {16, 19};
+	mat Eq_arma(n_rows, n_cols);
+    Eq_arma.fill(0.0);
+    Eq_arma = {{3, 2}, {7, 1}};
+    vec b_arma(n_rows);
+    b_arma.fill(0.0);
+    b_arma = {16, 19};
+    linear_solve LinSolv_arma(Eq_arma, b_arma, order, n_rows, n_cols);
+    vector<double> LinSolvSol_arma; 
+    LinSolv_arma.solve(LinSolvSol_arma);
+    LinSolv_arma.print_result();
+
+    cout << "*********" << endl;
+
+    ////int n_rows = 2;
+    ////int n_cols = 2;
+	MatrixXd Eq(n_rows, n_cols);
+    VectorXd b(n_rows);
+    Eq << 3, 2, 
+          7, 1;
+    b << 16, 19;
+    cout << Eq << endl;
+    cout << b<< endl;
     linear_solve LinSolv(Eq, b, order, n_rows, n_cols);
-    vector<double> LinSolve = LinSolv.solve();
-    LinSolv.print_result();
+    VectorXd LinSolvSol;
+    LinSolv.solve(LinSolvSol);
+    cout << "Solution:" << endl << LinSolvSol << endl;
 
     ////Newton Raphson
 	//vector<double> coff;
