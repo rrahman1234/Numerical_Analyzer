@@ -2,34 +2,40 @@
 #include<iostream>
 #include<vector>
 #include"armadillo"
+#include <Eigen/Sparse>
 #include <Eigen/Dense>
 #include <string>  
 
-#ifndef LINEAR_SOLVE_H
-#define LINEAR_SOLVE_H
+#ifndef SPARSE_SOLVE_H
+#define SPARSE_SOLVE_H
 
 using namespace std;
 using namespace arma;
 using namespace Eigen;
 
-class linear_solve: public numerical_solver
+
+typedef Eigen::SparseMatrix<double> SpMatrx;
+
+
+class sparse_solve: public numerical_solver
 {
     private:
         int num_rows, num_cols;
         int order;
         string solver_type; 
-        mat EqnMat;
+        sp_mat EqnMat;
         vec b_right_side;
-        MatrixXd EigenEqMat;
+        SpMatrx EigenEqMat;
         VectorXd Eigen_b_right_side;
 
     public:
         typedef std::vector<double> stdvec;
-        linear_solve(mat LinEqs, vec b_eq, int eq_order, int num_rows, int num_cols);
-        linear_solve(MatrixXd LinEqs, VectorXd b_eq, int eq_order, int num_rows, int num_cols);
+        sparse_solve(sp_mat LinEqs, vec b_eq, int eq_order, int num_rows, int num_cols);
+        sparse_solve(SpMatrx LinEqs, VectorXd b_eq, int eq_order, int num_rows, int num_cols);
         void solve(vector<double>& solution); 
         void solve(VectorXd& solution); 
 
 };
 
 #endif
+
