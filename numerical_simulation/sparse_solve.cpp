@@ -25,7 +25,6 @@ sparse_solve::sparse_solve(SpMatrx LinEqs, VectorXd b_eq, int eq_order, int n_ro
 }
 
 
-
 void sparse_solve::solve(vector<double>& solution)
 {
     cout << "Solving" << endl;
@@ -41,15 +40,18 @@ void sparse_solve::solve(vector<double>& solution)
     }
 }
 
-
-void sparse_solve::solve(VectorXd& solution)
+void sparse_solve::solve(VectorXd& solution, string solver_type)
 {
     cout << "Solving" << endl;
     cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
     cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
-    Eigen::SimplicialCholesky<SpMatrx> chol(EigenEqMat);
-    solution = chol.solve(Eigen_b_right_side);
+    if(solver_type == "QR")
+    {    
+        Eigen::SparseQR<SpMatrx, Eigen::COLAMDOrdering<int>> solver(EigenEqMat);
+        solver.compute(EigenEqMat);
+        solution = solver.solve(Eigen_b_right_side);
+    }
 }
 
 

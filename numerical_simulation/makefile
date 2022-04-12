@@ -17,10 +17,11 @@ main_i:       main.o numerical_solver.o newton_raphson_solve.o quadratic_solve.o
 # done with the same template / pattern
 
 %.o:            %.cpp $(INCLIB)
-		$(CC) -std=c++14 -I/Users/rrahman/Documents/Research_Learn_Stuffs/C++_Train/2021_drill_exercises/lib_tests/eigen_libTest/eigen/ --verbose -c -o $@ $<
+		$(CC) -std=c++14 -I/Users/rrahman/Documents/Research_Learn_Stuffs/C++_Train/2021_drill_exercises/lib_tests/eigen_libTest/eigen/  -c -o $@ $<
 
 # This "make test" is a bit informal - but it does show people how to
 # run the code and tells them the results to expect.
+# $(CC) -std=c++14 -I/Users/rrahman/Documents/Research_Learn_Stuffs/C++_Train/2021_drill_exercises/lib_tests/eigen_libTest/eigen/ --verbose -c -o $@ $<
 
 test:
 	@./main_i

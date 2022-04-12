@@ -54,9 +54,7 @@ int main()
     //LinSolv.solve(LinSolvSol);
     //cout << "Solution:" << endl << LinSolvSol << endl;
 
-    
     cout << "*********" << endl;
-
 
     int n_rows = 1000;
     int n_cols = 1000;
@@ -89,6 +87,13 @@ int main()
     VectorXd LinSolvSol;
     LinSolv.solve(LinSolvSol);
     cout << "Solution:" << endl << LinSolvSol << endl;
+
+    cout << "*********" << endl;
+    
+    sparse_solve SprsSolv(Eq, b, order, n_rows, n_cols); 
+    VectorXd SprsSolvSol;
+    SprsSolv.solve(SprsSolvSol, "QR");
+    cout << "Solution:" << endl << SprsSolvSol << endl;
 
    
     //////Newton Raphson
