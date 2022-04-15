@@ -52,6 +52,18 @@ void sparse_solve::solve(VectorXd& solution, string solver_type)
         solver.compute(EigenEqMat);
         solution = solver.solve(Eigen_b_right_side);
     }
+    else if (solver_type == "LU")
+    {
+        Eigen::SparseLU<SpMatrx, Eigen::COLAMDOrdering<int>> solver(EigenEqMat);
+        solver.compute(EigenEqMat);
+        solution = solver.solve(Eigen_b_right_side);
+    }
+    else if (solver_type == "LDLT")
+    {
+        Eigen::SimplicialLDLT<SpMatrx, Eigen::Lower, Eigen::NaturalOrdering<int>> solver(EigenEqMat);
+        solver.compute(EigenEqMat);
+        solution = solver.solve(Eigen_b_right_side);
+    }
 }
 
 

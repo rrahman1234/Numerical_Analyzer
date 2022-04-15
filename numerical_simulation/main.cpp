@@ -92,7 +92,7 @@ int main()
     
     sparse_solve SprsSolv(Eq, b, order, n_rows, n_cols); 
     VectorXd SprsSolvSol;
-    SprsSolv.solve(SprsSolvSol, "QR");
+    SprsSolv.solve(SprsSolvSol, "LDLT");
     cout << "Solution:" << endl << SprsSolvSol << endl;
 
    

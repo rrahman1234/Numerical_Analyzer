@@ -29,6 +29,7 @@ class linear_solve: public numerical_solver
         linear_solve(MatrixXd LinEqs, VectorXd b_eq, int eq_order, int num_rows, int num_cols);
         void solve(vector<double>& solution); 
         void solve(VectorXd& solution); 
+        void solve(VectorXd& solution, string solver_type); 
 
 };
 
