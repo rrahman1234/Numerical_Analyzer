@@ -12,10 +12,11 @@ class quadratic_solve: public numerical_solver
 {
 	private:
 		double* coefficient;
-
+	    vector<double> solution_vector;
 	public:
 		quadratic_solve(double X, int eq_order, double* coeffs);
-		vector<double> solve();
+		void solve();
+        vector<double> get_solution();
 };
 
 

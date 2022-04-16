@@ -13,16 +13,13 @@ bisection_solve::bisection_solve(double X_left, double X_right, int eq_order, in
 	cout << "Derived Class: Bisection Method Class \n";
 }
 
-
-
-vector<double> bisection_solve::solve()
+void bisection_solve::solve()
 {
 	cout << "Solve \n";
 
 	double x_mid;
 	double f1, f2;
     int Iter = 0;
-
 
 	f1 = function(x_left, coefficient);
 	f2 = function(x_right, coefficient);
@@ -43,8 +40,12 @@ vector<double> bisection_solve::solve()
             Iter++;
     } while ((x_right-x_left) >= m_error_tol);
     cout << "The value of root is : " << x_mid << "\n";
-    solution.push_back(x_mid);
-    return solution;
+    solution_vector.push_back(x_mid);
 }
 	
+vector<double> bisection_solve::get_solution()
+{
+    cout << "Solution: Bisection Method" << endl;
+    return solution_vector;
+}
 

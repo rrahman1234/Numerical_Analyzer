@@ -39,7 +39,7 @@ void numerical_solver:: get_list(double x1, vector<double> poly_coeff)
     cout << " ****** Printing Terms: Done ******" << endl; 
 } 
 
-void numerical_solver::print_result()
+void numerical_solver::print_result(vector<double> solution)
 {
 	cout << "Printing Solutions: \n";
 	for(auto s: solution)
@@ -69,46 +69,3 @@ double numerical_solver::function(double x1, vector<double> poly_coeff)
 
 
 
-
-
-/*
-vector<pair<double, double>>  numerical_solver::function(double x1, vector<double> poly_coeff, vector<double> diff_poly_coeff)
-{
-	
-	int i=0;   	
-
-	//x1 = x;
-	vector<pair<double, double>> polynomial;
-	vector<double> fn;
-	vector<double> dfn;
-
-	
-	for(int j = 0; j < poly_coeff.size(); j++)
-	{
-		polynomial.push_back(make_pair(poly_coeff[i]*pow(x1, i), diff_poly_coeff[i]*pow(x1, i)));
-		i += 1;
-	}
-
-	for(int i=0; i<polynomial.size(); ++i)
-	{
-  		fn.push_back(polynomial[i].first);
-  		dfn.push_back(polynomial[i].second);
-	}
-
-	
-	for(int i=0; i<polynomial.size(); ++i)
-	{
-  		std::cout << polynomial[i].first << '\n';
-	}
-
-	return polynomial;
-
-}*/
-
-
-//numerical_solver::numerical_solver(double variable, int eq_order)
-//{
-//	x = variable;
-//	order = eq_order;
-//	cout << "Base Class \n";
-//}

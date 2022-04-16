@@ -18,9 +18,11 @@ class bisection_solve: public numerical_solver
 		int m_Max_Iter;
 		int order;
 		vector<double>& coefficient;
+	    vector<double> solution_vector;
 	public:
 		bisection_solve(double X_left, double X_right, int eq_order, int Max_Iter, double error_tol, vector<double>& coeffs);
-		vector<double> solve();
+		void solve();
+        vector<double> get_solution();
 };
 
 #endif

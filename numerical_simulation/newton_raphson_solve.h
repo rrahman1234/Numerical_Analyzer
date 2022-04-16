@@ -17,9 +17,11 @@ class newton_raphson_solve: public numerical_solver
 		double m_error_tol;
 		vector<double>& coefficient;
 		vector<double>& diff_coefficients;
-	public:
+	    vector<double> solution_vector;
+    public:
 		newton_raphson_solve(double X, int eq_order, double X_init, int Max_Iter, double error_tol, vector<double>& coeffs, vector<double>& diff_coefficients);
-		vector<double> solve();
+		void solve();
+        vector<double> get_solution();
 };
 
 

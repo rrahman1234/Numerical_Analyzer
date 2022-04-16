@@ -16,9 +16,8 @@ newton_raphson_solve::newton_raphson_solve(double X, int eq_order, double X_init
 }
 
 
-vector<double> newton_raphson_solve::solve()
+void newton_raphson_solve::solve()
 {
-	vector<double> solution;
 	cout << "Solve \n";
    	
 	double xn, xn_plus_1;
@@ -41,10 +40,13 @@ vector<double> newton_raphson_solve::solve()
 		df0 = function(xn,diff_coefficients); 
 	} while(fabs(f1) > m_error_tol);
 		
-	solution.push_back(xn_plus_1); 	
-
-	return solution;
+	solution_vector.push_back(xn_plus_1); 	
 }
 
+vector<double> newton_raphson_solve::get_solution()
+{
+    cout << "Solution: Newton-Raphson" << endl;
+    return solution_vector;
+}
 
 	
