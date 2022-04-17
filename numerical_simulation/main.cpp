@@ -81,7 +81,7 @@ int main()
     b << 16, 19;
     cout << Eq << endl;
     cout << b<< endl;
-    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols);
+    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "LU");
     vector<double> LinSolvSol_Eigen;
     LinSolv_Eigen.solve();
     LinSolvSol_Eigen = LinSolv_Eigen.get_solution();
