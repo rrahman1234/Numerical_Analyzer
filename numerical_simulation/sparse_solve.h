@@ -27,6 +27,7 @@ class sparse_solve: public numerical_solver
         vec b_right_side;
         SpMatrx EigenEqMat;
         VectorXd Eigen_b_right_side;
+        VectorXd solution;
 
     public:
         typedef std::vector<double> stdvec;

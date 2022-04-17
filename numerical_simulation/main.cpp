@@ -89,15 +89,16 @@ int main()
 
     cout << "*********" << endl;
 
-    //int n_rows = 1000;
-    //int n_cols = 1000;
-	//sp_mat Eq_arma = sprandu<sp_mat>(1000, 1000, 0.1);
-    //vec b_arma(n_rows);
-    //b_arma.fill(1.0);
-    //sparse_solve LinSolv_arma(Eq_arma, b_arma, order, n_rows, n_cols);
-    //vector<double> LinSolvSol_arma; 
-    //LinSolv_arma.solve(LinSolvSol_arma);
-    //LinSolv_arma.print_result();
+    int n_rows_sp = 1000;
+    int n_cols_sp = 1000;
+	sp_mat Eq_arma_sp = sprandu<sp_mat>(n_rows_sp, n_cols_sp, 0.1);
+    vec b_arma_sp(n_rows_sp);
+    b_arma_sp.fill(1.0);
+    sparse_solve LinSolv_arma_sp(Eq_arma_sp, b_arma_sp, n_rows_sp, n_cols_sp);
+    vector<double> LinSolvSol_arma_sp; 
+    LinSolv_arma_sp.solve();
+    LinSolvSol_arma_sp = LinSolv_arma_sp.get_solution();
+    LinSolv_arma_sp.print_result(LinSolvSol_arma_sp);
 
     //cout << "*********" << endl;
 	//

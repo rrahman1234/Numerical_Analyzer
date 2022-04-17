@@ -22,7 +22,7 @@ numerical_solver::numerical_solver(double x, int order): x(x), order(order)
 }
 
 
-void numerical_solver:: get_list(double x1, vector<double> poly_coeff)
+void numerical_solver:: get_list(double x1, vector<double>& poly_coeff)
 {
     int i = 0;
     for(auto it: poly_coeff)
@@ -39,7 +39,7 @@ void numerical_solver:: get_list(double x1, vector<double> poly_coeff)
     cout << " ****** Printing Terms: Done ******" << endl; 
 } 
 
-void numerical_solver::print_result(vector<double> solution)
+void numerical_solver::print_result(vector<double>& solution)
 {
 	cout << "Printing Solutions: \n";
 	for(auto s: solution)
@@ -48,7 +48,7 @@ void numerical_solver::print_result(vector<double> solution)
 	}
 }
 
-double numerical_solver::function(double x1, vector<double> poly_coeff)
+double numerical_solver::function(double x1, vector<double>& poly_coeff)
 {
 	int i=0;
 	

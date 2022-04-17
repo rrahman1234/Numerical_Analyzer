@@ -11,15 +11,15 @@ using namespace std;
 
 class bisection_solve: public numerical_solver
 {
-	private:
+    private:
 		double x_left;
 		double x_right;
 		double m_error_tol;
 		int m_Max_Iter;
 		int order;
 		vector<double>& coefficient;
-	    vector<double> solution_vector;
-	public:
+	    
+    public:
 		bisection_solve(double X_left, double X_right, int eq_order, int Max_Iter, double error_tol, vector<double>& coeffs);
 		void solve();
         vector<double> get_solution();

@@ -14,14 +14,15 @@ class numerical_solver
 		int i;
 		int order;
         vector< pair< pair <double, double>, int> > equation_components;
+        vector<double> solution_vector;
         vector<double> solution;
 
 	public:
 		numerical_solver();
 		numerical_solver(double x, int order);
-		void print_result(vector<double> solution);
-        void get_list(double x1, vector<double> poly_coeff);
-		double function(double x1, vector<double> poly_coeff);
+		void print_result(vector<double>& solution);
+        void get_list(double x1, vector<double>& poly_coeff);
+		double function(double x1, vector<double>& poly_coeff);
         virtual vector<double> get_solution() = 0;
 		virtual void solve() = 0;
 };

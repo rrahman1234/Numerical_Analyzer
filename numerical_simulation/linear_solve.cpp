@@ -62,20 +62,16 @@ void linear_solve::solve()
 }
 
 
-//void linear_solve::solve(VectorXd& solution)
-//{
-//    cout << "Solving" << endl;
-//    cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
-//    cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
-//
-//    solution = EigenEqMat.lu().solve(Eigen_b_right_side);
-//    solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
-//        
-//}
-
 vector<double> linear_solve::get_solution()
 {
-    cout << "Solution: Linear Solver" << endl;
+    if (order == 1)
+    {
+        cout << "Solution: Linear Solver with Armadillo" << " " << endl;
+    }
+    else if (order == 2)
+    {
+        cout << "Solution: Linear Solver with Eigen: " << solver_type << " " << endl;
+    }
     return solution_vector;
 }
 

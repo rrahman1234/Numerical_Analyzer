@@ -23,16 +23,15 @@ class linear_solve: public numerical_solver
         MatrixXd EigenEqMat;
         VectorXd Eigen_b_right_side;
         VectorXd solution;
-	    vector<double> solution_vector;
 
     public:
         typedef std::vector<double> stdvec;
         linear_solve(mat LinEqs, vec b_eq, int num_rows, int num_cols);
         linear_solve(MatrixXd LinEqs, VectorXd b_eq, int num_rows, int num_cols, string solver_name);
         void solve(); 
+        vector<double> get_solution();
         //void solve(VectorXd& solution); 
         //void solve(VectorXd& solution, string solver_type); 
-        vector<double> get_solution();
 };
 
 #endif
