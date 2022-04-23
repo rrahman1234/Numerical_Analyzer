@@ -100,34 +100,31 @@ int main()
     LinSolvSol_arma_sp = LinSolv_arma_sp.get_solution();
     LinSolv_arma_sp.print_result(LinSolvSol_arma_sp);
 
-    //cout << "*********" << endl;
-	//
-    //SpMatrx Eq(5, 5);
-    //VectorXd b(5);
-    //
-    //Eq.insert(0,1) = 3;
-    //Eq.insert(1,0) = 22;
-    //Eq.insert(1,4) = 17;
-    //Eq.insert(2,0) = 17;
-    //Eq.insert(2,1) = 5;
-    //Eq.insert(2,3) = 1;
-    //Eq.insert(4,2) = 14;
-    //Eq.insert(3,4) = 8;
+    cout << "*********" << endl;
+	
+    SpMatrx Eq_2(5, 5);
+    VectorXd b_2(5);
+    
+    Eq_2.insert(0,1) = 3;
+    Eq_2.insert(1,0) = 22;
+    Eq_2.insert(1,4) = 17;
+    Eq_2.insert(2,0) = 17;
+    Eq_2.insert(2,1) = 5;
+    Eq_2.insert(2,3) = 1;
+    Eq_2.insert(4,2) = 14;
+    Eq_2.insert(3,4) = 8;
 
-    //b << 16, 19, 20, 12, 1;
-    //cout << Eq << endl;
-    //cout << b<< endl;
-    //linear_solve LinSolv(Eq, b, order, n_rows, n_cols);
-    //VectorXd LinSolvSol;
-    //LinSolv.solve(LinSolvSol);
-    //cout << "Solution:" << endl << LinSolvSol << endl;
-
-    //cout << "*********" << endl;
-    //
-    //sparse_solve SprsSolv(Eq, b, order, n_rows, n_cols); 
-    //VectorXd SprsSolvSol;
-    //SprsSolv.solve(SprsSolvSol, "LDLT");
-    //cout << "Solution:" << endl << SprsSolvSol << endl;
+    b_2 << 16, 19, 20, 12, 1;
+    cout << Eq_2 << endl;
+    cout << b_2 << endl;
+    linear_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "LU");
+    vector<double> LinSolvSol_2;
+    LinSolv_2.solve();
+    LinSolvSol_2 = LinSolv_2.get_solution();
+    LinSolv_2.print_result(LinSolvSol_2);
+    
+    cout << "*********" << endl;
+    
 
    
 	return 0;
