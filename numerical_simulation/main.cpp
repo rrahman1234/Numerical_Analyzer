@@ -81,49 +81,58 @@ int main()
     b << 16, 19;
     cout << Eq << endl;
     cout << b<< endl;
+    cout << "LU decomposition" << endl;
     linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "LU");
     vector<double> LinSolvSol_Eigen;
     LinSolv_Eigen.solve();
     LinSolvSol_Eigen = LinSolv_Eigen.get_solution();
     LinSolv_Eigen.print_result(LinSolvSol_Eigen);
 
-    cout << "*********" << endl;
-
-    int n_rows_sp = 1000;
-    int n_cols_sp = 1000;
-	sp_mat Eq_arma_sp = sprandu<sp_mat>(n_rows_sp, n_cols_sp, 0.1);
-    vec b_arma_sp(n_rows_sp);
-    b_arma_sp.fill(1.0);
-    sparse_solve LinSolv_arma_sp(Eq_arma_sp, b_arma_sp, n_rows_sp, n_cols_sp);
-    vector<double> LinSolvSol_arma_sp; 
-    LinSolv_arma_sp.solve();
-    LinSolvSol_arma_sp = LinSolv_arma_sp.get_solution();
-    LinSolv_arma_sp.print_result(LinSolvSol_arma_sp);
-
-    cout << "*********" << endl;
-	
-    SpMatrx Eq_2(5, 5);
-    VectorXd b_2(5);
+    cout << "QR decomposition" << endl;
+    linear_solve LinSolv_Eigen_2(Eq, b, n_rows, n_cols, "QR");
+    vector<double> LinSolvSol_Eigen_2;
+    LinSolv_Eigen_2.solve();
+    LinSolvSol_Eigen_2 = LinSolv_Eigen_2.get_solution();
+    LinSolv_Eigen_2.print_result(LinSolvSol_Eigen_2);
     
-    Eq_2.insert(0,1) = 3;
-    Eq_2.insert(1,0) = 22;
-    Eq_2.insert(1,4) = 17;
-    Eq_2.insert(2,0) = 17;
-    Eq_2.insert(2,1) = 5;
-    Eq_2.insert(2,3) = 1;
-    Eq_2.insert(4,2) = 14;
-    Eq_2.insert(3,4) = 8;
 
-    b_2 << 16, 19, 20, 12, 1;
-    cout << Eq_2 << endl;
-    cout << b_2 << endl;
-    linear_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "LU");
-    vector<double> LinSolvSol_2;
-    LinSolv_2.solve();
-    LinSolvSol_2 = LinSolv_2.get_solution();
-    LinSolv_2.print_result(LinSolvSol_2);
-    
-    cout << "*********" << endl;
+    //cout << "*********" << endl;
+
+    //int n_rows_sp = 1000;
+    //int n_cols_sp = 1000;
+	//sp_mat Eq_arma_sp = sprandu<sp_mat>(n_rows_sp, n_cols_sp, 0.1);
+    //vec b_arma_sp(n_rows_sp);
+    //b_arma_sp.fill(1.0);
+    //sparse_solve LinSolv_arma_sp(Eq_arma_sp, b_arma_sp, n_rows_sp, n_cols_sp);
+    //vector<double> LinSolvSol_arma_sp; 
+    //LinSolv_arma_sp.solve();
+    //LinSolvSol_arma_sp = LinSolv_arma_sp.get_solution();
+    //LinSolv_arma_sp.print_result(LinSolvSol_arma_sp);
+
+    //cout << "*********" << endl;
+	//
+    //SpMatrx Eq_2(5, 5);
+    //VectorXd b_2(5);
+    //
+    //Eq_2.insert(0,1) = 3;
+    //Eq_2.insert(1,0) = 22;
+    //Eq_2.insert(1,4) = 17;
+    //Eq_2.insert(2,0) = 17;
+    //Eq_2.insert(2,1) = 5;
+    //Eq_2.insert(2,3) = 1;
+    //Eq_2.insert(4,2) = 14;
+    //Eq_2.insert(3,4) = 8;
+
+    //b_2 << 16, 19, 20, 12, 1;
+    //cout << Eq_2 << endl;
+    //cout << b_2 << endl;
+    //linear_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "LU");
+    //vector<double> LinSolvSol_2;
+    //LinSolv_2.solve();
+    //LinSolvSol_2 = LinSolv_2.get_solution();
+    //LinSolv_2.print_result(LinSolvSol_2);
+    //
+    //cout << "*********" << endl;
     
 
    

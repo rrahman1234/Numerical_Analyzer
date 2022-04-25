@@ -9,7 +9,6 @@
 #include <Eigen/Dense>
 #include <typeinfo>
 
-
 using namespace Eigen;
 using namespace std;
 using namespace arma;
@@ -56,9 +55,21 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
-        solution = EigenEqMat.lu().solve(Eigen_b_right_side);
+        FullPivLU<MatrixXd> lu(EigenEqMat);
+        //solution = EigenEqMat.lu().solve(Eigen_b_right_side);
+        solution = lu.solve(Eigen_b_right_side);
         solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
-    }   
+    }
+    else if ((order == 2) && (solver_type == "QR"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        FullPivHouseholderQR<MatrixXd> qr(EigenEqMat);
+        solution = qr.solve(Eigen_b_right_side);
+        solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+    }
 }
 
 
