@@ -27,8 +27,8 @@ class linear_solve: public numerical_solver
 
     public:
         typedef std::vector<double> stdvec;
-        linear_solve(mat LinEqs, vec b_eq, int num_rows, int num_cols);
-        linear_solve(MatrixXd LinEqs, VectorXd b_eq, int num_rows, int num_cols, string solver_name);
+        linear_solve(mat& LinEqs, vec& b_eq, int num_rows, int num_cols);
+        linear_solve(MatrixXd& LinEqs, VectorXd& b_eq, int num_rows, int num_cols, string solver_name);
         void solve(); 
         vector<double> get_solution();
         void split_matrix();
