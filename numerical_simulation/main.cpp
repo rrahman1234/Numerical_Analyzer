@@ -95,6 +95,12 @@ int main()
     LinSolvSol_Eigen_2 = LinSolv_Eigen_2.get_solution();
     LinSolv_Eigen_2.print_result(LinSolvSol_Eigen_2);
     
+    cout << "LDLT decomposition" << endl;
+    linear_solve LinSolv_Eigen_3(Eq, b, n_rows, n_cols, "LDLT");
+    vector<double> LinSolvSol_Eigen_3;
+    LinSolv_Eigen_3.solve();
+    LinSolvSol_Eigen_3 = LinSolv_Eigen_3.get_solution();
+    LinSolv_Eigen_3.print_result(LinSolvSol_Eigen_3);
 
     //cout << "*********" << endl;
 

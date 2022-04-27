@@ -8,6 +8,8 @@
 #include <string> 
 #include <Eigen/Dense>
 #include <typeinfo>
+#include <stdexcept>
+
 
 using namespace Eigen;
 using namespace std;
@@ -69,6 +71,48 @@ void linear_solve::solve()
         FullPivHouseholderQR<MatrixXd> qr(EigenEqMat);
         solution = qr.solve(Eigen_b_right_side);
         solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+    }
+    else if ((order == 2) && (solver_type == "LLT"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        bool is_PosDef = true;
+
+        Eigen::LLT<Eigen::MatrixXd>  llt(EigenEqMat);
+        //check for positive definite condition
+        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || llt.info() == Eigen::NumericalIssue) {
+            is_PosDef = false;
+            throw std::runtime_error("Possibly non semi-positive definitie matrix!");
+        }         
+
+        if(is_PosDef)
+        {
+            solution = llt.solve(Eigen_b_right_side);
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
+    }
+    else if ((order == 2) && (solver_type == "LDLT"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        bool is_PosSemDef = true;;
+
+        Eigen::LDLT<Eigen::MatrixXd>  ldlt(EigenEqMat);
+        //check for positive definite condition
+        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || ldlt.info() == Eigen::NumericalIssue || !ldlt.isNegative() || !ldlt.isPositive()) {
+            is_PosSemDef = false;
+            throw std::runtime_error("Not Positive or negative semidefinite!");
+        }         
+
+        if(is_PosSemDef)
+        {
+            solution = ldlt.solve(Eigen_b_right_side);
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
     }
 }
 
