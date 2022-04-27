@@ -81,7 +81,26 @@ void linear_solve::solve()
         bool is_PosDef = true;
 
         Eigen::LLT<Eigen::MatrixXd>  llt(EigenEqMat);
-        //check for positive definite condition
+        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || llt.info() == Eigen::NumericalIssue) {
+            is_PosDef = false;
+            throw std::runtime_error("Possibly non semi-positive definitie matrix!");
+        }         
+
+        if(is_PosDef)
+        {
+            solution = llt.solve(Eigen_b_right_side);
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
+    }
+    else if ((order == 2) && (solver_type == "LLT_Upper"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        bool is_PosDef = true;
+
+        Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>  llt(EigenEqMat);
         if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || llt.info() == Eigen::NumericalIssue) {
             is_PosDef = false;
             throw std::runtime_error("Possibly non semi-positive definitie matrix!");
@@ -102,8 +121,37 @@ void linear_solve::solve()
         bool is_PosSemDef = true;;
 
         Eigen::LDLT<Eigen::MatrixXd>  ldlt(EigenEqMat);
-        //check for positive definite condition
-        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || ldlt.info() == Eigen::NumericalIssue || !ldlt.isNegative() || !ldlt.isPositive()) {
+        
+        if (ldlt.isPositive() == true)
+        {
+            std::cout << "Positive" << endl;
+        }
+        else if (ldlt.isNegative() == true)
+        {
+            std::cout << "Negative" << endl;
+        }
+
+        if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
+            is_PosSemDef = false;
+            throw std::runtime_error("Not Positive or negative semidefinite!");
+        }         
+
+        if(is_PosSemDef)
+        {
+            solution = ldlt.solve(Eigen_b_right_side);
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
+    }
+    else if ((order == 2) && (solver_type == "LDLT_Upper"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        bool is_PosSemDef = true;;
+
+        Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>  ldlt(EigenEqMat);
+        if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
             is_PosSemDef = false;
             throw std::runtime_error("Not Positive or negative semidefinite!");
         }         

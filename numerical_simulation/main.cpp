@@ -95,8 +95,17 @@ int main()
     LinSolvSol_Eigen_2 = LinSolv_Eigen_2.get_solution();
     LinSolv_Eigen_2.print_result(LinSolvSol_Eigen_2);
     
+	MatrixXd Eq_sym(3, 3);
+    VectorXd b_sym(3);
+    Eq_sym << 3, 2, 1, 
+     2, 3, 2, 
+     1, 2, 3;
+    b_sym << 39, 34, 26;
+    cout << Eq << endl;
+    cout << b<< endl;
+    
     cout << "LDLT decomposition" << endl;
-    linear_solve LinSolv_Eigen_3(Eq, b, n_rows, n_cols, "LDLT");
+    linear_solve LinSolv_Eigen_3(Eq_sym, b_sym, 3, 3, "LDLT");
     vector<double> LinSolvSol_Eigen_3;
     LinSolv_Eigen_3.solve();
     LinSolvSol_Eigen_3 = LinSolv_Eigen_3.get_solution();
