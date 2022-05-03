@@ -112,7 +112,7 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
-        bool is_PosSemDef = true;;
+        bool is_PosSemDef;
 
         Eigen::LDLT<Eigen::MatrixXd>  ldlt(EigenEqMat);
         
@@ -125,10 +125,7 @@ void linear_solve::solve()
             std::cout << "Negative" << endl;
         }
 
-        if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
-            is_PosSemDef = false;
-            throw std::runtime_error("Not Positive or negative semidefinite!");
-        }         
+        is_PosSemDef = is_positive_negative_semi_definite(EigenEqMat, ldlt);
 
         if(is_PosSemDef)
         {
