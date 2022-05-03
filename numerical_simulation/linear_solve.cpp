@@ -162,6 +162,16 @@ void linear_solve::solve()
             solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
         }
     }
+    else if ((order == 2) && (solver_type == "SVD"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        Eigen::JacobiSVD<Eigen::MatrixXd, ComputeThinU | ComputeThinV> jacob_svd(EigenEqMat);
+        solution = jacob_svd.solve(Eigen_b_right_side);
+        solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+    }
 }
 
 

@@ -111,6 +111,14 @@ int main()
     LinSolvSol_Eigen_3 = LinSolv_Eigen_3.get_solution();
     LinSolv_Eigen_3.print_result(LinSolvSol_Eigen_3);
 
+    cout << "Jacon SVD decomposition" << endl;
+    linear_solve LinSolv_Eigen_4(Eq_sym, b_sym, 3, 3, "SVD");
+    vector<double> LinSolvSol_Eigen_4;
+    LinSolv_Eigen_4.solve();
+    LinSolvSol_Eigen_4 = LinSolv_Eigen_4.get_solution();
+    LinSolv_Eigen_4.print_result(LinSolvSol_Eigen_4);
+    
+
     //cout << "*********" << endl;
 
     //int n_rows_sp = 1000;
