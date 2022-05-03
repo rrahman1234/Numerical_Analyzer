@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <Eigen/Dense>
+
 
 #ifndef NUMERICAL_SOLVER_H
 #define NUMERICAL_SOLVER_H
@@ -25,6 +27,20 @@ class numerical_solver
 		double function(double x1, vector<double>& poly_coeff);
         virtual vector<double> get_solution() = 0;
 		virtual void solve() = 0;
+        
+        template<typename T>
+        bool is_positive_semi_definite(Eigen::MatrixXd& EqnMat, T obj)
+        {
+            
+            bool is_PosDef = true;
+
+            if (!EqnMat.isApprox(EqnMat.transpose()) || obj.info() == Eigen::NumericalIssue) {
+                    is_PosDef = false;
+                    throw std::runtime_error("Possibly non semi-positive definitie matrix!");
+                }
+
+            return is_PosDef;
+        }
 };
 
 

@@ -9,8 +9,6 @@
 #define LINEAR_SOLVE_H
 
 using namespace std;
-using namespace arma;
-using namespace Eigen;
 
 class linear_solve: public numerical_solver
 {
@@ -18,17 +16,17 @@ class linear_solve: public numerical_solver
         int num_rows, num_cols;
         int order;
         string solver_type; 
-        mat EqnMat;
-        vec b_right_side;
-        MatrixXd EigenEqMat;
-        VectorXd Eigen_b_right_side;
-        VectorXd solution;
+        arma::mat EqnMat;
+        arma::vec b_right_side;
+        Eigen::MatrixXd EigenEqMat;
+        Eigen::VectorXd Eigen_b_right_side;
+        Eigen::VectorXd solution;
 
 
     public:
         typedef std::vector<double> stdvec;
-        linear_solve(mat& LinEqs, vec& b_eq, int num_rows, int num_cols);
-        linear_solve(MatrixXd& LinEqs, VectorXd& b_eq, int num_rows, int num_cols, string solver_name);
+        linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int num_rows, int num_cols);
+        linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int num_rows, int num_cols, string solver_name);
         void solve(); 
         vector<double> get_solution();
         void split_matrix();

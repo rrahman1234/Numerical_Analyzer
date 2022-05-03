@@ -11,12 +11,11 @@
 #include <stdexcept>
 
 
-using namespace Eigen;
 using namespace std;
 using namespace arma;
+using namespace Eigen;
 
-
-linear_solve::linear_solve(mat& LinEqs, vec& b_eq, int n_rows, int n_cols): EqnMat(LinEqs), b_right_side(b_eq),  num_rows(n_rows), num_cols(n_cols)
+linear_solve::linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int n_rows, int n_cols): EqnMat(LinEqs), b_right_side(b_eq),  num_rows(n_rows), num_cols(n_cols)
 {
     cout << "Linear Solver Class: Armadillo Library" << endl;
     order = 1;
@@ -28,7 +27,7 @@ linear_solve::linear_solve(mat& LinEqs, vec& b_eq, int n_rows, int n_cols): EqnM
 //    order = 2;
 //}
 
-linear_solve::linear_solve(MatrixXd& LinEqs, VectorXd& b_eq, int n_rows, int n_cols, string solver_name): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name)
+linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name)
 {
     cout << "Linear Solver Class: Eigen Library" << endl;
     order = 2;
@@ -78,13 +77,10 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
-        bool is_PosDef = true;
+        bool is_PosDef;
 
         Eigen::LLT<Eigen::MatrixXd>  llt(EigenEqMat);
-        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || llt.info() == Eigen::NumericalIssue) {
-            is_PosDef = false;
-            throw std::runtime_error("Possibly non semi-positive definitie matrix!");
-        }         
+        is_PosDef = is_positive_semi_definite(EigenEqMat, llt);
 
         if(is_PosDef)
         {
@@ -101,10 +97,8 @@ void linear_solve::solve()
         bool is_PosDef = true;
 
         Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>  llt(EigenEqMat);
-        if (!EigenEqMat.isApprox(EigenEqMat.transpose()) || llt.info() == Eigen::NumericalIssue) {
-            is_PosDef = false;
-            throw std::runtime_error("Possibly non semi-positive definitie matrix!");
-        }         
+        is_PosDef = is_positive_semi_definite(EigenEqMat, llt);
+                 
 
         if(is_PosDef)
         {

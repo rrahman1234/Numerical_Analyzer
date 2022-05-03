@@ -68,4 +68,3 @@ double numerical_solver::function(double x1, vector<double>& poly_coeff)
 }
 
 
-

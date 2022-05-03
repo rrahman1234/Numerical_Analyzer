@@ -104,6 +104,13 @@ int main()
     cout << Eq << endl;
     cout << b<< endl;
     
+    cout << "LLT decomposition" << endl;
+    linear_solve LinSolv_Eigen_31(Eq_sym, b_sym, 3, 3, "LLT");
+    vector<double> LinSolvSol_Eigen_31;
+    LinSolv_Eigen_31.solve();
+    LinSolvSol_Eigen_31 = LinSolv_Eigen_31.get_solution();
+    LinSolv_Eigen_31.print_result(LinSolvSol_Eigen_31);
+    
     cout << "LDLT decomposition" << endl;
     linear_solve LinSolv_Eigen_3(Eq_sym, b_sym, 3, 3, "LDLT");
     vector<double> LinSolvSol_Eigen_3;
