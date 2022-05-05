@@ -80,7 +80,7 @@ void linear_solve::solve()
         bool is_PosDef;
 
         Eigen::LLT<Eigen::MatrixXd>  llt(EigenEqMat);
-        is_PosDef = is_positive_semi_definite(EigenEqMat, llt);
+        is_PosDef = is_positive_semi_definite<Eigen::MatrixXd, Eigen::LLT<Eigen::MatrixXd>> (EigenEqMat, llt);
 
         if(is_PosDef)
         {
@@ -97,7 +97,7 @@ void linear_solve::solve()
         bool is_PosDef = true;
 
         Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>  llt(EigenEqMat);
-        is_PosDef = is_positive_semi_definite(EigenEqMat, llt);
+        is_PosDef = is_positive_semi_definite<Eigen::MatrixXd, Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>&>(EigenEqMat, llt);
                  
 
         if(is_PosDef)
@@ -125,7 +125,7 @@ void linear_solve::solve()
             std::cout << "Negative" << endl;
         }
 
-        is_PosSemDef = is_positive_negative_semi_definite(EigenEqMat, ldlt);
+        is_PosSemDef = is_positive_negative_semi_definite<Eigen::MatrixXd, Eigen::LDLT<Eigen::MatrixXd>&>(EigenEqMat, ldlt);
 
         if(is_PosSemDef)
         {
@@ -139,13 +139,18 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
-        bool is_PosSemDef = true;;
+        //bool is_PosSemDef = true;;
+
+        //Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>  ldlt(EigenEqMat);
+        //if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
+        //    is_PosSemDef = false;
+        //    throw std::runtime_error("Not Positive or negative semidefinite!");
+        //}         
+        
+        bool is_PosSemDef = true;
 
         Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>  ldlt(EigenEqMat);
-        if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
-            is_PosSemDef = false;
-            throw std::runtime_error("Not Positive or negative semidefinite!");
-        }         
+        is_PosSemDef = is_positive_negative_semi_definite<Eigen::MatrixXd, Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>&>(EigenEqMat, ldlt);
 
         if(is_PosSemDef)
         {

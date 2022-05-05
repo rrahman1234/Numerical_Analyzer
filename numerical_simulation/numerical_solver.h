@@ -29,8 +29,30 @@ class numerical_solver
 		virtual void solve() = 0;
         
         //Template Classes
-        template<typename T>
-        bool is_positive_semi_definite(Eigen::MatrixXd& EqnMat, T obj)
+        //template<typename T>
+        //bool is_positive_semi_definite(Eigen::MatrixXd& EqnMat, T obj)
+        //{
+        //    bool is_PosDef = true;
+        //    if (!EqnMat.isApprox(EqnMat.transpose()) || obj.info() == Eigen::NumericalIssue) {
+        //            is_PosDef = false;
+        //            throw std::runtime_error("Possibly non semi-positive definitie matrix!");
+        //    }
+        //    return is_PosDef;
+        //}
+
+        //template<typename T>
+        //bool is_positive_negative_semi_definite(Eigen::MatrixXd& EqnMat, T obj)
+        //{
+        //    bool is_PosSemDef = true;
+        //    if ((!EqnMat.isApprox(EqnMat.transpose())) || (obj.info() == Eigen::NumericalIssue) || (obj.isPositive() == false)) {
+        //    is_PosSemDef = false;
+        //    throw std::runtime_error("Not Positive or negative semidefinite!");
+        //    }         
+        //    return is_PosSemDef;
+        //}
+
+        template<typename U, typename T>
+        bool is_positive_semi_definite(U EqnMat, T obj)
         {
             bool is_PosDef = true;
             if (!EqnMat.isApprox(EqnMat.transpose()) || obj.info() == Eigen::NumericalIssue) {
@@ -40,8 +62,9 @@ class numerical_solver
             return is_PosDef;
         }
 
-        template<typename T>
-        bool is_positive_negative_semi_definite(Eigen::MatrixXd& EqnMat, T obj)
+        
+        template<typename U, typename T>
+        bool is_positive_negative_semi_definite(U EqnMat, T obj)
         {
             bool is_PosSemDef = true;
             if ((!EqnMat.isApprox(EqnMat.transpose())) || (obj.info() == Eigen::NumericalIssue) || (obj.isPositive() == false)) {
@@ -50,7 +73,6 @@ class numerical_solver
             }         
             return is_PosSemDef;
         }
-
 };
 
 
