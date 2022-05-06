@@ -139,28 +139,29 @@ int main()
     //LinSolvSol_arma_sp = LinSolv_arma_sp.get_solution();
     //LinSolv_arma_sp.print_result(LinSolvSol_arma_sp);
 
-    //cout << "*********" << endl;
-	//
-    //SpMatrx Eq_2(5, 5);
-    //VectorXd b_2(5);
-    //
-    //Eq_2.insert(0,1) = 3;
-    //Eq_2.insert(1,0) = 22;
-    //Eq_2.insert(1,4) = 17;
-    //Eq_2.insert(2,0) = 17;
-    //Eq_2.insert(2,1) = 5;
-    //Eq_2.insert(2,3) = 1;
-    //Eq_2.insert(4,2) = 14;
-    //Eq_2.insert(3,4) = 8;
+    cout << "*********" << endl;
+	
+    SpMatrx Eq_2(5, 5);
+    VectorXd b_2(5);
+   
 
-    //b_2 << 16, 19, 20, 12, 1;
-    //cout << Eq_2 << endl;
-    //cout << b_2 << endl;
-    //linear_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "LU");
-    //vector<double> LinSolvSol_2;
-    //LinSolv_2.solve();
-    //LinSolvSol_2 = LinSolv_2.get_solution();
-    //LinSolv_2.print_result(LinSolvSol_2);
+    Eq_2.insert(0,1) = 3;
+    Eq_2.insert(1,0) = 22;
+    Eq_2.insert(1,4) = 17;
+    Eq_2.insert(2,0) = 17;
+    Eq_2.insert(2,1) = 5;
+    Eq_2.insert(2,3) = 1;
+    Eq_2.insert(4,2) = 14;
+    Eq_2.insert(3,4) = 8;
+
+    b_2 << 16, 19, 20, 12, 1;
+    cout << Eq_2 << endl;
+    cout << b_2 << endl;
+    sparse_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "QR");
+    vector<double> LinSolvSol_2;
+    LinSolv_2.solve();
+    LinSolvSol_2 = LinSolv_2.get_solution();
+    LinSolv_2.print_result(LinSolvSol_2);
     //
     //cout << "*********" << endl;
     

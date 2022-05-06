@@ -138,15 +138,6 @@ void linear_solve::solve()
         cout << "Solving" << endl;
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
-
-        //bool is_PosSemDef = true;;
-
-        //Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>  ldlt(EigenEqMat);
-        //if ((!EigenEqMat.isApprox(EigenEqMat.transpose())) || (ldlt.info() == Eigen::NumericalIssue) || (ldlt.isPositive() == false)) {
-        //    is_PosSemDef = false;
-        //    throw std::runtime_error("Not Positive or negative semidefinite!");
-        //}         
-        
         bool is_PosSemDef = true;
 
         Eigen::LDLT<Eigen::MatrixXd, Eigen::Upper>  ldlt(EigenEqMat);
