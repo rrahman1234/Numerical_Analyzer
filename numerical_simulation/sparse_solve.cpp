@@ -52,9 +52,18 @@ void sparse_solve::solve()
     }
     else if ((order == 2) && (solver_type == "LU"))
     {
-        Eigen::SparseLU<SpMatrx, Eigen::COLAMDOrdering<int>> solver(EigenEqMat);
-        solver.compute(EigenEqMat);
-        solution = solver.solve(Eigen_b_right_side);
+        bool is_square = true;
+        if (num_rows != num_cols) {
+                is_square = false;
+                throw std::runtime_error("Not Square Matrix!");
+        }
+
+        if(is_square)
+        {
+            Eigen::SparseLU<SpMatrx, Eigen::COLAMDOrdering<int>> solver(EigenEqMat);
+            solver.compute(EigenEqMat);
+            solution = solver.solve(Eigen_b_right_side);
+        }
     }
     else if ((order == 2) && (solver_type == "LDLT"))
     {
