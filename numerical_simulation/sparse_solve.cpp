@@ -78,6 +78,20 @@ void sparse_solve::solve()
             solution = solver.solve(Eigen_b_right_side);
         }
     }
+    else if ((order == 2) && (solver_type == "CG"))
+    {
+        Eigen::ConjugateGradient<SpMatrx, Eigen::Lower|Upper> solver(EigenEqMat);
+       
+        bool is_PosDef;
+        is_PosDef = is_positive_semi_definite<SpMatrx, Eigen::ConjugateGradient<SpMatrx, Eigen::Lower|Upper>&> (EigenEqMat, solver);
+
+        if(is_PosDef)
+        {
+            solver.compute(EigenEqMat);
+            solution = solver.solve(Eigen_b_right_side);
+        }
+    }
+
     solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
 }
 
