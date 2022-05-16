@@ -22,7 +22,6 @@ class linear_solve: public numerical_solver
         Eigen::VectorXd Eigen_b_right_side;
         Eigen::VectorXd solution;
 
-
     public:
         typedef std::vector<double> stdvec;
         linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int num_rows, int num_cols);
@@ -30,8 +29,6 @@ class linear_solve: public numerical_solver
         void solve(); 
         vector<double> get_solution();
         void split_matrix();
-        //void solve(VectorXd& solution); 
-        //void solve(VectorXd& solution, string solver_type); 
 };
 
 #endif

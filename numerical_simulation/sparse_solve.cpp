@@ -91,6 +91,28 @@ void sparse_solve::solve()
             solution = solver.solve(Eigen_b_right_side);
         }
     }
+    else if ((order == 2) && (solver_type == "LSCG"))
+    {
+        Eigen::LeastSquaresConjugateGradient<SpMatrx> solver(EigenEqMat);
+      
+        bool is_recangular = false;
+        if(num_rows != num_cols) {
+            is_recangular = true;
+        }
+
+        bool is_PosDef;
+        is_PosDef = is_positive_semi_definite<SpMatrx, Eigen::LeastSquaresConjugateGradient<SpMatrx>&> (EigenEqMat*EigenEqMat.transpose(), solver);
+
+        if(is_PosDef && is_recangular)
+        {
+            solver.compute(EigenEqMat);
+            solution = solver.solve(Eigen_b_right_side);
+        }
+        else
+        {
+            throw std::runtime_error("Non-recangular PSD matrix!!");
+        }
+    }
 
     solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
 }
