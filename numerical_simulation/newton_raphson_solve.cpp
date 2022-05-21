@@ -39,8 +39,9 @@ void newton_raphson_solve::solve()
 		f1 = function(xn_plus_1, coefficient);
 		df0 = function(xn,diff_coefficients); 
 	} while(fabs(f1) > m_error_tol);
-		
-	solution_vector.push_back(xn_plus_1); 	
+	
+    solution_vector.push_back(xn_plus_1); 	
+
 }
 
 vector<double> newton_raphson_solve::get_solution()

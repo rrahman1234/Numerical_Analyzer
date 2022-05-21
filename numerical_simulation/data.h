@@ -7,4 +7,6 @@
 #ifndef DATA_H
 #define DATA_H
 
-class 
+class data_types
+{
+

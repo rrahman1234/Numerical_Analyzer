@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include"armadillo"
 #include <Eigen/Dense>
 
 
@@ -17,7 +18,7 @@ class numerical_solver
 		int order;
         vector< pair< pair <double, double>, int> > equation_components;
         vector<double> solution_vector;
-        vector<double> solution;
+        //vector<double> solution;
 
 	public:
 		numerical_solver();
@@ -27,7 +28,6 @@ class numerical_solver
 		double function(double x1, vector<double>& poly_coeff);
         virtual vector<double> get_solution() = 0;
 		virtual void solve() = 0;
-
 
         template<typename U, typename T>
         bool is_positive_semi_definite(U EqnMat, T obj)
