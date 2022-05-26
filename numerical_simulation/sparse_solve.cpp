@@ -113,6 +113,28 @@ void sparse_solve::solve()
             throw std::runtime_error("Non-recangular PSD matrix!!");
         }
     }
+    else if ((order == 2) && (solver_type == "BCG"))
+    {
+        Eigen::BiCGSTAB<SpMatrx> solver(EigenEqMat);
+      
+        bool is_square = false;
+        if(num_rows == num_cols) {
+            is_square = true;
+        }
+
+        bool is_PosDef;
+        is_PosDef = is_positive_semi_definite<SpMatrx, Eigen::BiCGSTAB<SpMatrx>&> (EigenEqMat*EigenEqMat.transpose(), solver);
+
+        if(is_PosDef && is_square)
+        {
+            solver.compute(EigenEqMat);
+            solution = solver.solve(Eigen_b_right_side);
+        }
+        else
+        {
+            throw std::runtime_error("Non-square PSD matrix!!");
+        }
+    }
 
     solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
 }

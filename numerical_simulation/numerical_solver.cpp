@@ -59,7 +59,6 @@ double numerical_solver::function(double x1, vector<double>& poly_coeff)
 	{
         fn.push_back(poly_coeff[i]*pow(x1, i));	
         i += 1;
-
 	}
 
 	func = accumulate(fn.begin(), fn.end(), 0.0);
@@ -67,4 +66,38 @@ double numerical_solver::function(double x1, vector<double>& poly_coeff)
 	return func;
 }
 
+vector<double>* numerical_solver::function_poly_terms(double x1, vector<double>& poly_coeff)
+{
+	int i=0;
+	
+	vector<double>* fn;
+ 	double func;
+
+	for(auto it: poly_coeff)
+	{
+        fn->push_back(poly_coeff[i]*pow(x1, i));	
+        i += 1;
+	}
+	
+	return fn;
+}
+
+vector<double>* numerical_solver::function_poly_diff_terms(double x1, vector<double>& poly_coeff)
+{
+	int i=0;
+	
+	vector<double>* fn;
+ 	double func, j=0.0;
+
+	for(size_t i=0; i<=poly_coeff.size(); i++)
+	{
+        if(i > 0)
+        {
+            fn -> push_back(j*poly_coeff[i]*pow(x1, i-1));	
+            j += 1.0;
+        }
+    }
+	
+	return fn;
+}
 

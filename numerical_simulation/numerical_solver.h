@@ -26,6 +26,8 @@ class numerical_solver
 		void print_result(vector<double>& solution);
         void get_list(double x1, vector<double>& poly_coeff);
 		double function(double x1, vector<double>& poly_coeff);
+		vector<double>* function_poly_terms(double x1, vector<double>& poly_coeff);
+		vector<double>* function_poly_diff_terms(double x1, vector<double>& poly_coeff);
         virtual vector<double> get_solution() = 0;
 		virtual void solve() = 0;
 
