@@ -26,8 +26,8 @@ void newton_raphson_solve::solve()
 	int iter = 0;
  	
 	xn = m_X_init;
-	f0 = function(xn,coefficient);
-	df0 = function(xn,diff_coefficients); 	
+	f0 = function(xn, coefficient);
+	df0 = function(xn, diff_coefficients); 	
 	f1 = function(xn, coefficient);
 	do
 	{

@@ -28,19 +28,20 @@ int main()
 	//quad_Sol.print_result(quad);
     
     //Newton Raphson
-	//vector<double> nr;
-	//vector<double> coff;
-	//vector<double> diff_coff;
-	//coff.push_back(3.0);
-	//coff.push_back(0.0);
-	//coff.push_back(-2.0);
-	//coff.push_back(1.0);
-	//diff_coff.push_back(3.0);
-	//diff_coff.push_back(2.0);
-	//newton_raphson_solve NR_Sol(X, 2, 2.0, 50, 0.001, coff, diff_coff);		
-    //NR_Sol.solve();
-	//nr = NR_Sol.get_solution();
-	//NR_Sol.print_result(nr);
+	cout << "****** EQN SOLVER *****" << endl;
+    vector<double> nr;
+	vector<double> coff;
+	vector<double> diff_coff;
+	coff.push_back(1.0);
+	coff.push_back(3.0);
+	coff.push_back(1.0);
+	diff_coff.push_back(3.0);
+	diff_coff.push_back(2.0);
+	newton_raphson_solve NR_Sol(X, 2, 2.0, 50, 0.001, coff, diff_coff);		
+    NR_Sol.solve();
+	nr = NR_Sol.get_solution();
+	NR_Sol.print_result(nr);
+	cout << "****** EQN SOLVER *****" << endl;
     
 
     //Bisection
@@ -157,13 +158,11 @@ int main()
     b_2 << 16, 19, 20, 12, 1;
     cout << Eq_2 << endl;
     cout << b_2 << endl;
-    sparse_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "QR");
+    sparse_solve LinSolv_2(Eq_2, b_2, n_rows, n_cols, "BCG_LUT");
     vector<double> LinSolvSol_2;
     LinSolv_2.solve();
     LinSolvSol_2 = LinSolv_2.get_solution();
     LinSolv_2.print_result(LinSolvSol_2);
-    //
-    //cout << "*********" << endl;
     
 
    

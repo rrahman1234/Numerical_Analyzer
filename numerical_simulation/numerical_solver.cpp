@@ -52,16 +52,16 @@ double numerical_solver::function(double x1, vector<double>& poly_coeff)
 {
 	int i=0;
 	
-	vector<double> fn;
+	vector<double>* fn = new vector<double>();
  	double func;
 
 	for(auto it: poly_coeff)
 	{
-        fn.push_back(poly_coeff[i]*pow(x1, i));	
+        fn->push_back(poly_coeff[i]*pow(x1, i));	
         i += 1;
 	}
 
-	func = accumulate(fn.begin(), fn.end(), 0.0);
+	func = accumulate(fn->begin(), fn->end(), 0.0);
 	
 	return func;
 }
@@ -93,7 +93,7 @@ vector<double>* numerical_solver::function_poly_diff_terms(double x1, vector<dou
 	{
         if(i > 0)
         {
-            fn -> push_back(j*poly_coeff[i]*pow(x1, i-1));	
+            fn->push_back(j*poly_coeff[i]*pow(x1, i-1));	
             j += 1.0;
         }
     }
