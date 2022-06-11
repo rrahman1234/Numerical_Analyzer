@@ -50,16 +50,14 @@ void numerical_solver::print_result(vector<double>& solution)
 
 double numerical_solver::function(double x1, vector<double>& poly_coeff)
 {
-	int i=0;
 	
 	vector<double>* fn = new vector<double>();
  	double func;
 
-	for(auto it: poly_coeff)
+	for(int i = 0; i < poly_coeff.size(); i++)
 	{
-        fn->push_back(poly_coeff[i]*pow(x1, i));	
-        i += 1;
-	}
+        fn->insert(fn->begin()+i, poly_coeff[i]*pow(x1, poly_coeff.size()-1-i));	
+    }
 
 	func = accumulate(fn->begin(), fn->end(), 0.0);
 	
@@ -73,9 +71,9 @@ vector<double>* numerical_solver::function_poly_terms(double x1, vector<double>&
 	vector<double>* fn;
  	double func;
 
-	for(auto it: poly_coeff)
+	for(int i = 0; i < poly_coeff.size(); i++)
 	{
-        fn->push_back(poly_coeff[i]*pow(x1, i));	
+        fn->insert(fn->begin()+i, poly_coeff[i]*pow(x1, poly_coeff.size()-1-i));	
         i += 1;
 	}
 	
@@ -87,14 +85,13 @@ vector<double>* numerical_solver::function_poly_diff_terms(double x1, vector<dou
 	int i=0;
 	
 	vector<double>* fn;
- 	double func, j=0.0;
+ 	double func;
 
-	for(size_t i=0; i<=poly_coeff.size(); i++)
+	for(size_t i=0; i<poly_coeff.size(); i++)
 	{
         if(i > 0)
         {
-            fn->push_back(j*poly_coeff[i]*pow(x1, i-1));	
-            j += 1.0;
+            fn->insert(fn->begin()+i, poly_coeff[i]*pow(x1, poly_coeff.size()-1-i-1));	
         }
     }
 	
