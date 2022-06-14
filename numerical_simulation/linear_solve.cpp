@@ -156,8 +156,9 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
         
-        Eigen::VectorXd my_solution(num_rows);
-        solution = my_solution;
+        //Eigen::VectorXd my_solution(num_rows);
+        //solution = my_solution;
+        solution.resize(num_rows, 1);
 
         while(num_iterations > 0)
         {
