@@ -63,12 +63,10 @@ int main()
 	secant_rt = Secant_Sol.get_solution();
 	cout << "****** EQN SOLVER *****" << endl;
     
-
-
     //Linear System 
     //cout << "*********" << endl;
-    //int n_rows = 2;
-    //int n_cols = 2;
+    int n_rows = 2;
+    int n_cols = 2;
 	//mat Eq_arma(n_rows, n_cols);
     //Eq_arma.fill(0.0);
     //Eq_arma = {{3, 2}, {7, 1}};
@@ -172,7 +170,18 @@ int main()
     //LinSolvSol_2 = LinSolv_2.get_solution();
     //LinSolv_2.print_result(LinSolvSol_2);
     
+	MatrixXd Eq(n_rows, n_cols);
+    VectorXd b(n_rows);
+    Eq << 3, 2, 
+          7, 1;
+    b << 16, 19;
+    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "Gauss-Siedel", 1);
+    vector<double> LinSolvSol_Eigen;
+    LinSolv_Eigen.solve();
 
+
+
+    
    
 	return 0;
 }

@@ -21,18 +21,11 @@ linear_solve::linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int n_rows, int n
     order = 1;
 }
 
-//linear_solve::linear_solve(MatrixXd LinEqs, VectorXd b_eq, int n_rows, int n_cols): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols)
-//{
-//    cout << "Linear Solver Class: Eigen Library" << endl;
-//    order = 2;
-//}
-
-linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name)
+linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name, int num_iter): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name), num_iterations(num_iter) 
 {
     cout << "Linear Solver Class: Eigen Library" << endl;
     order = 2;
 }
-
 
 void linear_solve::solve()
 {
@@ -57,7 +50,6 @@ void linear_solve::solve()
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
         FullPivLU<MatrixXd> lu(EigenEqMat);
-        //solution = EigenEqMat.lu().solve(Eigen_b_right_side);
         solution = lu.solve(Eigen_b_right_side);
         solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
     }
@@ -99,7 +91,6 @@ void linear_solve::solve()
         Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>  llt(EigenEqMat);
         is_PosDef = is_positive_semi_definite<Eigen::MatrixXd, Eigen::LLT<Eigen::MatrixXd, Eigen::Upper>&>(EigenEqMat, llt);
                  
-
         if(is_PosDef)
         {
             solution = llt.solve(Eigen_b_right_side);
@@ -158,6 +149,29 @@ void linear_solve::solve()
         Eigen::JacobiSVD<Eigen::MatrixXd, ComputeThinU | ComputeThinV> jacob_svd(EigenEqMat);
         solution = jacob_svd.solve(Eigen_b_right_side);
         solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+    }
+    else if ((order == 2) && (solver_type == "Gauss-Siedel"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+        
+        Eigen::VectorXd my_solution(num_rows);
+        solution = my_solution;
+
+        while(num_iterations > 0)
+        {
+            for(int i=0; i<EigenEqMat.rows(); i++) {
+                solution(i) = EigenEqMat(i,i)/Eigen_b_right_side(i);
+                for(int j=0; j<EigenEqMat.cols(); j++)
+                {
+                    if(j == i) continue;
+                    //cout << Eigen_b_right_side(i) << "***" << EigenEqMat(i,j) << endl;
+
+                }
+            }
+        num_iterations--;
+        }
     }
 }
 
