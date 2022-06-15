@@ -157,6 +157,7 @@ void linear_solve::solve()
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
         
         solution.resize(num_rows, 1);
+        Eigen::VectorXd solution_x0 = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(solution_initial->data(), solution_initial->size());
 
         while(num_iterations > 0)
         {
@@ -165,11 +166,13 @@ void linear_solve::solve()
                 for(int j=0; j<EigenEqMat.cols(); j++)
                 {
                     if(j == i) continue;
-                    solution(i) = solution(i) - EigenEqMat(i, j)/EigenEqMat(i, i); 
+                    solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(i);
+                    solution_x0(i) = solution(i);
                 }
             }
         num_iterations--;
         }
+        solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
     }
 }
 

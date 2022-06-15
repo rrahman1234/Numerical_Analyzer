@@ -178,9 +178,11 @@ int main()
     std::vector<double>* x0 = new vector<double>(2);
     (*x0)[0] = 0.0;
     (*x0)[1] = 0.0;
-    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "Gauss-Siedel", 1, x0);
-    vector<double> LinSolvSol_Eigen;
+    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "Gauss-Siedel", 100, x0);
+    vector<double> LinSolvSol_GS;
     LinSolv_Eigen.solve();
+    LinSolvSol_GS = LinSolv_Eigen.get_solution();
+    LinSolv_Eigen.print_result(LinSolvSol_GS);
 
 
 
