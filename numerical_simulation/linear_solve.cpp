@@ -21,7 +21,7 @@ linear_solve::linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int n_rows, int n
     order = 1;
 }
 
-linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name, int num_iter): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name), num_iterations(num_iter) 
+linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name, int num_iter, std::vector<double>* solution_init): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name), num_iterations(num_iter), solution_initial(solution_init)   
 {
     cout << "Linear Solver Class: Eigen Library" << endl;
     order = 2;
@@ -156,8 +156,6 @@ void linear_solve::solve()
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
         
-        //Eigen::VectorXd my_solution(num_rows);
-        //solution = my_solution;
         solution.resize(num_rows, 1);
 
         while(num_iterations > 0)
@@ -167,8 +165,7 @@ void linear_solve::solve()
                 for(int j=0; j<EigenEqMat.cols(); j++)
                 {
                     if(j == i) continue;
-                    //cout << Eigen_b_right_side(i) << "***" << EigenEqMat(i,j) << endl;
-
+                    solution(i) = solution(i) - EigenEqMat(i, j)/EigenEqMat(i, i); 
                 }
             }
         num_iterations--;

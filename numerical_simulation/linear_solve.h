@@ -22,11 +22,12 @@ class linear_solve: public numerical_solver
         Eigen::MatrixXd EigenEqMat;
         Eigen::VectorXd Eigen_b_right_side;
         Eigen::VectorXd solution;
+        std::vector<double>* solution_initial;
 
     public:
         typedef std::vector<double> stdvec;
         linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int num_rows, int num_cols);
-        linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int num_rows, int num_cols, string solver_name, int num_iter = 100);
+        linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int num_rows, int num_cols, string solver_name, int num_iter = 10, std::vector<double>* solution_init =nullptr);
         void solve(); 
         vector<double> get_solution();
         void split_matrix();
