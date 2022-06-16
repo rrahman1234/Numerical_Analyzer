@@ -42,7 +42,6 @@ class numerical_solver
             return is_PosDef;
         }
 
-        
         template<typename U, typename T>
         bool is_positive_negative_semi_definite(U EqnMat, T obj)
         {
@@ -52,6 +51,35 @@ class numerical_solver
             throw std::runtime_error("Not Positive or negative semidefinite!");
             }         
             return is_PosSemDef;
+        }
+
+        template<int, typename T>
+        double findSum(int i, T Mat)
+        {
+            double sum = 0;
+            for(int j=0; j<Mat.rows(); j++)
+            {
+              if(i!=j)
+                sum+=Mat(i,j);
+            }
+            return sum;
+        }
+
+        template<int, typename T>
+        bool isMethodApplicable(T Mat)
+        {
+           for(int i=0;i<Mat.rows();i++)
+           {
+                for(int j=0;j<Mat.cols();j++)
+                {
+
+                   if(fabs(Mat(i,i))>findSum(i, Mat))
+                      break;
+                   else  
+                      return false;   
+                }
+            }
+            return true;
         }
 
 };

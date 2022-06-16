@@ -172,9 +172,9 @@ int main()
     
 	MatrixXd Eq(n_rows, n_cols);
     VectorXd b(n_rows);
-    Eq << 3, 2, 
-          7, 1;
-    b << 16, 19;
+    Eq << 1.0, 2.0, 
+          3.0, 4.0;
+    b << 1.0, 2.0;
     std::vector<double>* x0 = new vector<double>(2);
     (*x0)[0] = 0.0;
     (*x0)[1] = 0.0;

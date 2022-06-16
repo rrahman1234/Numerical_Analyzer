@@ -155,22 +155,28 @@ void linear_solve::solve()
         cout << "Solving" << endl;
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
-        
+       
+        int iter_count = 0;
+
         solution.resize(num_rows, 1);
         Eigen::VectorXd solution_x0 = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(solution_initial->data(), solution_initial->size());
+      
+        //Check Applicability
 
         while(num_iterations > 0)
         {
             for(int i=0; i<EigenEqMat.rows(); i++) {
-                solution(i) = EigenEqMat(i,i)/Eigen_b_right_side(i);
+                solution(i) = Eigen_b_right_side(i)/EigenEqMat(i,i);
                 for(int j=0; j<EigenEqMat.cols(); j++)
                 {
                     if(j == i) continue;
-                    solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(i);
-                    solution_x0(i) = solution(i);
+                    solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
                 }
+                solution_x0(i) = solution(i);
             }
         num_iterations--;
+        iter_count++;
+        cout << "End of Iteration: " << iter_count << endl;
         }
         solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
     }
