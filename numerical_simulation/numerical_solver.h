@@ -53,7 +53,7 @@ class numerical_solver
             return is_PosSemDef;
         }
 
-        template<int, typename T>
+        template<typename U = int, typename T>
         double findSum(int i, T Mat)
         {
             double sum = 0;
@@ -65,14 +65,13 @@ class numerical_solver
             return sum;
         }
 
-        template<int, typename T>
-        bool isMethodApplicable(T Mat)
+        template<typename T>
+        bool isApplicable(T Mat)
         {
            for(int i=0;i<Mat.rows();i++)
            {
                 for(int j=0;j<Mat.cols();j++)
                 {
-
                    if(fabs(Mat(i,i))>findSum(i, Mat))
                       break;
                    else  

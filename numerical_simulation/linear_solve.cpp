@@ -161,24 +161,67 @@ void linear_solve::solve()
         solution.resize(num_rows, 1);
         Eigen::VectorXd solution_x0 = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(solution_initial->data(), solution_initial->size());
       
-        //Check Applicability
+        int N_mat = EigenEqMat.rows();
+        bool converged_done = false;
+        bool not_applicable = false;
 
-        while(num_iterations > 0)
+        if(isApplicable<Eigen::MatrixXd>(EigenEqMat))
         {
-            for(int i=0; i<EigenEqMat.rows(); i++) {
-                solution(i) = Eigen_b_right_side(i)/EigenEqMat(i,i);
-                for(int j=0; j<EigenEqMat.cols(); j++)
-                {
-                    if(j == i) continue;
-                    solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
+            while(num_iterations > 0)
+            {
+                for(int i=0; i < N_mat; i++) {
+                    double sum = 0.0; 
+                    for(int j=0; j < N_mat; j++)
+                    {
+                        if(j == i) continue;
+                        sum += EigenEqMat(i,j)*solution(j);
+                    }
+                    solution(i) = (EigenEqMat(i, N_mat-1) - sum)/EigenEqMat(i,i);
+                    
+                    if(fabs(solution_x0(i)-solution(i)) < 0.001)
+                    {
+                        converged_done = true;
+                    }
+                    solution_x0(i) = solution(i);
                 }
-                solution_x0(i) = solution(i);
+
+            if(converged_done == true)
+            {
+               cout << "Solution converged" << endl;
+                break;
             }
-        num_iterations--;
-        iter_count++;
-        cout << "End of Iteration: " << iter_count << endl;
+            num_iterations--;
+            iter_count++;
+            cout << "End of Iteration#: " << iter_count << endl;
+            }
         }
-        solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        else
+        {
+            cout << "Gauss-Siedel not applicable" << endl;
+            not_applicable = true;
+        }
+
+
+        //while(num_iterations > 0)
+        //{
+        //    for(int i=0; i<EigenEqMat.rows(); i++) {
+        //        solution(i) = Eigen_b_right_side(i)/EigenEqMat(i,i);
+        //        for(int j=0; j<EigenEqMat.cols(); j++)
+        //        {
+        //            if(j == i) continue;
+        //            solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
+        //        }
+        //        solution_x0(i) = solution(i);
+        //    }
+        //num_iterations--;
+        //iter_count++;
+        //cout << "End of Iteration: " << iter_count << endl;
+        //}
+        
+        if(converged_done && !not_applicable)
+        {
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
     }
 }
 
