@@ -170,15 +170,23 @@ int main()
     //LinSolvSol_2 = LinSolv_2.get_solution();
     //LinSolv_2.print_result(LinSolvSol_2);
     
-	MatrixXd Eq(n_rows, n_cols);
-    VectorXd b(n_rows);
-    Eq << 1.0, 2.0, 
-          3.0, 4.0;
-    b << 1.0, 2.0;
-    std::vector<double>* x0 = new vector<double>(2);
-    (*x0)[0] = 0.0;
+    int n_rows_1 = 3;
+    int n_cols_1 = 3;
+	
+    MatrixXd Eq(n_rows_1, n_cols_1);
+    VectorXd b(n_rows_1);
+    
+    Eq << 12.0, 3.0, -5.0, 
+          1.0, 5.0, 3.0,
+          3.0, 7.0, 13.0;
+
+    b << 1.0, 28.0, 76.0;
+    
+    std::vector<double>* x0 = new vector<double>(n_rows_1);
+    (*x0)[0] = 1.0;
     (*x0)[1] = 0.0;
-    linear_solve LinSolv_Eigen(Eq, b, n_rows, n_cols, "Gauss-Siedel", 100, x0);
+    (*x0)[2] = 1.0;
+    linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Siedel", 100, x0);
     vector<double> LinSolvSol_GS;
     LinSolv_Eigen.solve();
     LinSolvSol_GS = LinSolv_Eigen.get_solution();

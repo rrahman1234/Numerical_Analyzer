@@ -21,7 +21,7 @@ linear_solve::linear_solve(arma::mat& LinEqs, arma::vec& b_eq, int n_rows, int n
     order = 1;
 }
 
-linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name, int num_iter, std::vector<double>* solution_init): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name), num_iterations(num_iter), solution_initial(solution_init)   
+linear_solve::linear_solve(Eigen::MatrixXd& LinEqs, Eigen::VectorXd& b_eq, int n_rows, int n_cols, string solver_name, int num_iter, std::vector<double>* solution_init, double error_tolerance): EigenEqMat(LinEqs), Eigen_b_right_side(b_eq), num_rows(n_rows), num_cols(n_cols), solver_type(solver_name), num_iterations(num_iter), solution_initial(solution_init), err_tol(error_tolerance) 
 {
     cout << "Linear Solver Class: Eigen Library" << endl;
     order = 2;
@@ -169,16 +169,14 @@ void linear_solve::solve()
         {
             while(num_iterations > 0)
             {
-                for(int i=0; i < N_mat; i++) {
-                    double sum = 0.0; 
-                    for(int j=0; j < N_mat; j++)
+                for(int i=0; i<EigenEqMat.rows(); i++) {
+                    solution(i) = Eigen_b_right_side(i)/EigenEqMat(i,i);
+                    for(int j=0; j<EigenEqMat.cols(); j++)
                     {
                         if(j == i) continue;
-                        sum += EigenEqMat(i,j)*solution(j);
+                        solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
                     }
-                    solution(i) = (EigenEqMat(i, N_mat-1) - sum)/EigenEqMat(i,i);
-                    
-                    if(fabs(solution_x0(i)-solution(i)) < 0.001)
+                    if(fabs(solution_x0(i)-solution(i)) < 0.00001)
                     {
                         converged_done = true;
                     }
@@ -201,26 +199,14 @@ void linear_solve::solve()
             not_applicable = true;
         }
 
-
-        //while(num_iterations > 0)
-        //{
-        //    for(int i=0; i<EigenEqMat.rows(); i++) {
-        //        solution(i) = Eigen_b_right_side(i)/EigenEqMat(i,i);
-        //        for(int j=0; j<EigenEqMat.cols(); j++)
-        //        {
-        //            if(j == i) continue;
-        //            solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
-        //        }
-        //        solution_x0(i) = solution(i);
-        //    }
-        //num_iterations--;
-        //iter_count++;
-        //cout << "End of Iteration: " << iter_count << endl;
-        //}
-        
         if(converged_done && !not_applicable)
         {
             solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
+        else
+        {
+            cout << "------------------------ Either Not Converged or Gauss-Siedel not Applicable ------------------------" << endl;
+            abort();
         }
     }
 }
