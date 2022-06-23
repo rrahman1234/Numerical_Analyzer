@@ -176,7 +176,7 @@ void linear_solve::solve()
                         if(j == i) continue;
                         solution(i) = solution(i) - (EigenEqMat(i, j)/EigenEqMat(i, i))*solution_x0(j);
                     }
-                    if(fabs(solution_x0(i)-solution(i)) < 0.00001)
+                    if(fabs(solution_x0(i)-solution(i)) < err_tol)
                     {
                         converged_done = true;
                     }
@@ -207,6 +207,24 @@ void linear_solve::solve()
         {
             cout << "------------------------ Either Not Converged or Gauss-Siedel not Applicable ------------------------" << endl;
             abort();
+        }
+    }
+    else if ((order == 2) && (solver_type == "Gauss-Jordan"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+        //Partial Pivoting
+        for(int i = EigenEqMat.rows()-1; i>0; i--)        
+        {
+            if(EigenEqMat(i-1,0) < EigenEqMat(i,0))
+                for(int j=0; j<=EigenEqMat.cols(); j++)
+                {
+                    double tmp = EigenEqMat(i,j);
+                    EigenEqMat(i,j) = EigenEqMat(i-1,j);
+                    EigenEqMat(i-1,j) = tmp;
+                }
         }
     }
 }
