@@ -193,8 +193,8 @@ int main()
     //LinSolv_Eigen.print_result(LinSolvSol_GS);
 
     linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Jordan");
-    //vector<double> LinSolvSol_GJ;
-    //LinSolv_Eigen.solve();
+    vector<double> LinSolvSol_GJ;
+    LinSolv_Eigen.solve();
     //LinSolvSol_GJ = LinSolv_Eigen.get_solution();
     //LinSolv_Eigen.print_result(LinSolvSol_GJ);
 
