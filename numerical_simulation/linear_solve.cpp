@@ -216,18 +216,37 @@ void linear_solve::solve()
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
 
         //Partial Pivoting
-        for(int i = EigenEqMat.rows()-1; i>1; i--)        
+        //for(int i = EigenEqMat.rows()-1; i>1; i--)        
+        //{
+        //    if(EigenEqMat(i-1,0) < EigenEqMat(i,0))
+        //    {
+        //        for(int j=0; j<EigenEqMat.cols(); j++)
+        //        {
+        //            double tmp = EigenEqMat(i,j);
+        //            EigenEqMat(i,j) = EigenEqMat(i-1,j);
+        //            EigenEqMat(i-1,j) = tmp;
+        //        }
+        //    }
+        //}
+        
+        cout << "****" << endl;
+        cout << EigenEqMat << endl;
+        
+        for(int i=0; i < EigenEqMat.rows(); i++)
         {
-            if(EigenEqMat(i-1,0) < EigenEqMat(i,0))
+            if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat))
             {
-                for(int j=0; j<EigenEqMat.cols(); j++)
-                {
-                    double tmp = EigenEqMat(i,j);
-                    EigenEqMat(i,j) = EigenEqMat(i-1,j);
-                    EigenEqMat(i-1,j) = tmp;
-                }
+                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat);
+            }
+            else
+            {
+                exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat);
+                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat);
             }
         }
+
+        cout << "****" << endl;
+        cout << EigenEqMat << endl;
     }
 }
 

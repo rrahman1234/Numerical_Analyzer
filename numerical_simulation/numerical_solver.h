@@ -81,6 +81,50 @@ class numerical_solver
             return true;
         }
 
+        template<typename U = int, typename T>
+        bool pivotZero(int row_indx, T& Mat)
+        {
+            if(Mat(row_indx, row_indx) == 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template<typename U = int, typename T>
+        void exchangeRow(int row_indx, T& Mat)
+        {
+            int k = row_indx + 1;
+            int max_indx = row_indx + 1;
+
+            while(k < Mat.rows())
+            {
+                if(Mat(max_indx, row_indx) < Mat(k, row_indx))
+                    max_indx  = k;
+                k++;
+            }
+
+            for (int j = 0; j < Mat.cols(); j++)
+            {
+                double temp;
+                temp = Mat(row_indx, j);
+                Mat(row_indx, j) = Mat(max_indx, j);
+                Mat(max_indx, j) = temp;
+            }
+        }
+
+        template<typename U = int, typename T>
+        void normalize(int row_indx, T& Mat)
+        {
+            double  normal = Mat(row_indx, row_indx);
+            for(int j = 0; j < Mat.cols(); j++)
+            {
+                Mat(row_indx, j) /= normal;
+            }
+        }  
+
+
 };
 
 
