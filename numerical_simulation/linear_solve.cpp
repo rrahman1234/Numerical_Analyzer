@@ -243,6 +243,15 @@ void linear_solve::solve()
                 exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat);
                 normalize<int, Eigen::MatrixXd&>(i, EigenEqMat);
             }
+
+            for(int k = i+1; k < EigenEqMat.rows(); k++)
+            {
+                double zeroFactor = EigenEqMat(k, i);
+                for(int j = 0; j < EigenEqMat.cols(); j++)
+                {
+                    EigenEqMat(k, j) -= zeroFactor*EigenEqMat(i, j);
+                }
+            }
         }
 
         cout << "****" << endl;
