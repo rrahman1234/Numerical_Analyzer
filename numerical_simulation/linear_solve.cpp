@@ -231,31 +231,40 @@ void linear_solve::solve()
         
         cout << "****" << endl;
         cout << EigenEqMat << endl;
+       
+        //Combine A and b (from Ax=b) 
+        Eigen::MatrixXd EigenEqMat_Comb(EigenEqMat.rows(), EigenEqMat.cols()+Eigen_b_right_side.cols());
+        EigenEqMat_Comb << EigenEqMat, Eigen_b_right_side;
+
         
-        for(int i=0; i < EigenEqMat.rows(); i++)
+        cout << "**** After Combining ****" << endl;
+        cout << EigenEqMat_Comb << endl;
+        
+
+        for(int i=0; i < EigenEqMat_Comb.rows(); i++)
         {
-            if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat))
+            if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb))
             {
-                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat);
+                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
             }
             else
             {
-                exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat);
-                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat);
+                exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
+                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
             }
 
-            for(int k = i+1; k < EigenEqMat.rows(); k++)
+            for(int k = i+1; k < EigenEqMat_Comb.rows(); k++)
             {
-                double zeroFactor = EigenEqMat(k, i);
-                for(int j = 0; j < EigenEqMat.cols(); j++)
+                double zeroFactor = EigenEqMat_Comb(k, i);
+                for(int j = 0; j < EigenEqMat_Comb.cols(); j++)
                 {
-                    EigenEqMat(k, j) -= zeroFactor*EigenEqMat(i, j);
+                    EigenEqMat_Comb(k, j) -= zeroFactor*EigenEqMat_Comb(i, j);
                 }
             }
         }
 
         cout << "****" << endl;
-        cout << EigenEqMat << endl;
+        cout << EigenEqMat_Comb << endl;
     }
 }
 
