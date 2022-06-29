@@ -241,6 +241,7 @@ void linear_solve::solve()
         cout << EigenEqMat_Comb << endl;
         
 
+        //normalize and exchange rows
         for(int i=0; i < EigenEqMat_Comb.rows(); i++)
         {
             if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb))
@@ -263,8 +264,32 @@ void linear_solve::solve()
             }
         }
 
-        cout << "****" << endl;
+        cout << "**** Combined A and b ****" << endl;
         cout << EigenEqMat_Comb << endl;
+
+        //Put back EigenEqMat and Eigen_b_right_side
+        EigenEqMat = EigenEqMat_Comb.block(0, 0 ,EigenEqMat.rows(), EigenEqMat.cols());
+        Eigen_b_right_side = EigenEqMat_Comb.block(0, EigenEqMat_Comb.cols()-1, EigenEqMat_Comb.rows(), Eigen_b_right_side.cols());
+
+
+        ////Back-substitution
+        for (int i = EigenEqMat_Comb.rows()-1; i >= 0; i--)
+        {
+            /* start with the RHS of the equation */
+            
+            solution(i) = EigenEqMat_Comb(i, EigenEqMat_Comb.rows());
+ 
+            /* Initialize j to i+1 since matrix is upper triangular*/
+            for (int j=i+1; j<EigenEqMat_Comb.cols(); j++)
+            {
+                /* subtract all the lhs values
+                * except the coefficient of the variable 
+                * * whose value is being calculated */
+                solution(i) -= EigenEqMat_Comb(i,j)*solution(j);
+            }
+            /* divide the RHS by the coefficient of the unknown being calculated */
+        solution(i) = solution(i)/EigenEqMat_Comb(i, i);
+        }
     }
 }
 
