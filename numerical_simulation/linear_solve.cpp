@@ -214,6 +214,8 @@ void linear_solve::solve()
         cout << "Solving" << endl;
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+        
+        solution.resize(num_rows, 1);
 
         //Partial Pivoting
         //for(int i = EigenEqMat.rows()-1; i>1; i--)        
@@ -273,24 +275,18 @@ void linear_solve::solve()
 
 
         ////Back-substitution
-        for (int i = EigenEqMat_Comb.rows()-1; i >= 0; i--)
+        for (int i = EigenEqMat.rows()-1; i >= 0; i--)
         {
-            /* start with the RHS of the equation */
-            
-            solution(i) = EigenEqMat_Comb(i, EigenEqMat_Comb.rows());
- 
-            /* Initialize j to i+1 since matrix is upper triangular*/
-            for (int j=i+1; j<EigenEqMat_Comb.cols(); j++)
+            solution(i) = Eigen_b_right_side(i);//EigenEqMat(i, EigenEqMat.cols()-1);
+            for (int j=i+1; j<EigenEqMat.cols(); j++)
             {
-                /* subtract all the lhs values
-                * except the coefficient of the variable 
-                * * whose value is being calculated */
-                solution(i) -= EigenEqMat_Comb(i,j)*solution(j);
+                solution(i) -= EigenEqMat(i,j)*solution(j);
             }
-            /* divide the RHS by the coefficient of the unknown being calculated */
-        solution(i) = solution(i)/EigenEqMat_Comb(i, i);
+        //solution(i) = solution(i)/EigenEqMat(i, i);
+        //solution(i) = solution(i);
         }
     }
+    cout << solution << endl;
 }
 
 
