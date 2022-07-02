@@ -217,76 +217,69 @@ void linear_solve::solve()
         
         solution.resize(num_rows, 1);
 
-        //Partial Pivoting
-        //for(int i = EigenEqMat.rows()-1; i>1; i--)        
-        //{
-        //    if(EigenEqMat(i-1,0) < EigenEqMat(i,0))
-        //    {
-        //        for(int j=0; j<EigenEqMat.cols(); j++)
-        //        {
-        //            double tmp = EigenEqMat(i,j);
-        //            EigenEqMat(i,j) = EigenEqMat(i-1,j);
-        //            EigenEqMat(i-1,j) = tmp;
-        //        }
-        //    }
-        //}
-        
         cout << "****" << endl;
         cout << EigenEqMat << endl;
-       
-        //Combine A and b (from Ax=b) 
-        Eigen::MatrixXd EigenEqMat_Comb(EigenEqMat.rows(), EigenEqMat.cols()+Eigen_b_right_side.cols());
-        EigenEqMat_Comb << EigenEqMat, Eigen_b_right_side;
+      
+        //If Matrix is invertble
+        bool Is_invertible = EigenEqMat.fullPivLu().isInvertible();
 
-        
-        cout << "**** After Combining ****" << endl;
-        cout << EigenEqMat_Comb << endl;
-        
-
-        //normalize and exchange rows
-        for(int i=0; i < EigenEqMat_Comb.rows(); i++)
+        if(Is_invertible)
         {
-            if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb))
-            {
-                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
-            }
-            else
-            {
-                exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
-                normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
-            }
+            //Combine A and b (from Ax=b) 
+            Eigen::MatrixXd EigenEqMat_Comb(EigenEqMat.rows(), EigenEqMat.cols()+Eigen_b_right_side.cols());
+            EigenEqMat_Comb << EigenEqMat, Eigen_b_right_side;
 
-            for(int k = i+1; k < EigenEqMat_Comb.rows(); k++)
+            cout << "**** After Combining ****" << endl;
+            cout << EigenEqMat_Comb << endl;
+
+            //normalize and exchange rows
+            for(int i=0; i < EigenEqMat_Comb.rows(); i++)
             {
-                double zeroFactor = EigenEqMat_Comb(k, i);
-                for(int j = 0; j < EigenEqMat_Comb.cols(); j++)
+                if(!pivotZero<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb))
                 {
-                    EigenEqMat_Comb(k, j) -= zeroFactor*EigenEqMat_Comb(i, j);
+                    normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
+                }
+                else
+                {
+                    exchangeRow<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
+                    normalize<int, Eigen::MatrixXd&>(i, EigenEqMat_Comb);
+                }
+
+                for(int k = i+1; k < EigenEqMat_Comb.rows(); k++)
+                {
+                    double zeroFactor = EigenEqMat_Comb(k, i);
+                    for(int j = 0; j < EigenEqMat_Comb.cols(); j++)
+                    {
+                        EigenEqMat_Comb(k, j) -= zeroFactor*EigenEqMat_Comb(i, j);
+                    }
                 }
             }
-        }
 
-        cout << "**** Combined A and b ****" << endl;
-        cout << EigenEqMat_Comb << endl;
+            cout << "**** Combined A and b ****" << endl;
+            cout << EigenEqMat_Comb << endl;
 
-        //Put back EigenEqMat and Eigen_b_right_side
-        EigenEqMat = EigenEqMat_Comb.block(0, 0 ,EigenEqMat.rows(), EigenEqMat.cols());
-        Eigen_b_right_side = EigenEqMat_Comb.block(0, EigenEqMat_Comb.cols()-1, EigenEqMat_Comb.rows(), Eigen_b_right_side.cols());
+            //Put back EigenEqMat and Eigen_b_right_side
+            EigenEqMat = EigenEqMat_Comb.block(0, 0 ,EigenEqMat.rows(), EigenEqMat.cols());
+            Eigen_b_right_side = EigenEqMat_Comb.block(0, EigenEqMat_Comb.cols()-1, EigenEqMat_Comb.rows(), Eigen_b_right_side.cols());
 
-
-        ////Back-substitution
-        for (int i = EigenEqMat.rows()-1; i >= 0; i--)
-        {
-            solution(i) = Eigen_b_right_side(i);//EigenEqMat(i, EigenEqMat.cols()-1);
-            for (int j=i+1; j<EigenEqMat.cols(); j++)
+            //Back-substitution
+            for (int i = EigenEqMat.rows()-1; i >= 0; i--)
             {
-                solution(i) -= EigenEqMat(i,j)*solution(j);
+                solution(i) = Eigen_b_right_side(i);   //EigenEqMat(i, EigenEqMat.cols()-1);
+                for (int j=i+1; j<EigenEqMat.cols(); j++)
+                {
+                    solution(i) -= EigenEqMat(i,j)*solution(j);
+                }
             }
-        //solution(i) = solution(i)/EigenEqMat(i, i);
-        //solution(i) = solution(i);
+            solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
+        }
+        else
+        {
+            cout << "------------------------ Either Not Converged or Gauss-Jordan method not Applicable ------------------------" << endl;
+            abort();
         }
     }
-    cout << solution << endl;
+    
 }
 
 
