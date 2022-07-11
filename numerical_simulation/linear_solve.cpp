@@ -279,7 +279,13 @@ void linear_solve::solve()
             abort();
         }
     }
-    
+    else if ((order == 2) && (solver_type == "Gauss-Elimination"))
+    {
+        cout << "Solving" << endl;
+        cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
+        cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+
+    }
 }
 
 
