@@ -284,7 +284,35 @@ void linear_solve::solve()
         cout << "Solving" << endl;
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+        
+        int N_mat = EigenEqMat.rows();
+        bool converged_done = false;
+        bool not_applicable = false;
+        
+        if(!isApplicable_gaussElimination<Eigen::MatrixXd>(EigenEqMat))
+        {
+            cout << "Not Applicable: Diagonal element can not be zero" << endl;
+            abort();
+        }
+        else
+        {
+            for(int j=0; j < EigenEqMat.cols(); j++)
+            {
+                for(int i=j+1; i < EigenEqMat.rows(); i++)
+                {
+                    double ratio = EigenEqMat(i,j)/EigenEqMat(j,j);
+                
+                    for(int k=0; k < EigenEqMat.cols(); k++)
+                    {
+                        EigenEqMat(i,k) = EigenEqMat(i,k) - ratio*EigenEqMat(j,k);
+                        Eigen_b_right_side(i) = Eigen_b_right_side(i) - ratio*EigenEqMat(j,k);
+                    }
 
+                }
+            }
+        }
+    cout << EigenEqMat << endl;
+    cout << Eigen_b_right_side << endl;
     }
 }
 

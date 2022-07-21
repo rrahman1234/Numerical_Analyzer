@@ -182,16 +182,22 @@ int main()
 
     b << 1.0, 28.0, 76.0;
     
-    std::vector<double>* x0 = new vector<double>(n_rows_1);
-    (*x0)[0] = 1.0;
-    (*x0)[1] = 0.0;
-    (*x0)[2] = 1.0;
-    linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Siedel", 100, x0);
+    //std::vector<double>* x0 = new vector<double>(n_rows_1);
+    //(*x0)[0] = 1.0;
+    //(*x0)[1] = 0.0;
+    //(*x0)[2] = 1.0;
+    //linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Siedel", 100, x0);
+    //vector<double> LinSolvSol_GS;
+    //LinSolv_Eigen.solve();
+    //LinSolvSol_GS = LinSolv_Eigen.get_solution();
+    //LinSolv_Eigen.print_result(LinSolvSol_GS);
+
+    linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Elimination", 100);
     vector<double> LinSolvSol_GS;
     LinSolv_Eigen.solve();
     LinSolvSol_GS = LinSolv_Eigen.get_solution();
     LinSolv_Eigen.print_result(LinSolvSol_GS);
-
+    
     //linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Jordan");
     //vector<double> LinSolvSol_GJ;
     //LinSolv_Eigen.solve();

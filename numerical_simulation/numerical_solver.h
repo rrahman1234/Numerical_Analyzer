@@ -125,6 +125,22 @@ class numerical_solver
         }  
 
 
+        template<typename T>
+        bool isApplicable_gaussElimination(T Mat)
+        {
+           for(int i=0;i<Mat.rows();i++)
+           {
+                for(int j=0;j<Mat.cols();j++)
+                {
+                   if(fabs(Mat(i,i)) == 0.0)
+                   {
+                      return false;   
+                      break;
+                   }
+                }
+           }
+        return true;
+        }
 };
 
 
