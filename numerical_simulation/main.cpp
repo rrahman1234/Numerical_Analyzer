@@ -170,17 +170,17 @@ int main()
     //LinSolvSol_2 = LinSolv_2.get_solution();
     //LinSolv_2.print_result(LinSolvSol_2);
     
-    int n_rows_1 = 3;
-    int n_cols_1 = 3;
-	
-    MatrixXd Eq(n_rows_1, n_cols_1);
-    VectorXd b(n_rows_1);
-    
-    Eq << 12.0, 3.0, -5.0, 
-          1.0, 5.0, 3.0,
-          3.0, 7.0, 13.0;
+    //int n_rows_1 = 3;
+    //int n_cols_1 = 3;
+	//
+    //MatrixXd Eq(n_rows_1, n_cols_1);
+    //VectorXd b(n_rows_1);
+    //
+    //Eq << 12.0, 3.0, -5.0, 
+    //      1.0, 5.0, 3.0,
+    //      3.0, 7.0, 13.0;
 
-    b << 1.0, 28.0, 76.0;
+    //b << 1.0, 28.0, 76.0;
     
     //std::vector<double>* x0 = new vector<double>(n_rows_1);
     //(*x0)[0] = 1.0;
@@ -192,6 +192,18 @@ int main()
     //LinSolvSol_GS = LinSolv_Eigen.get_solution();
     //LinSolv_Eigen.print_result(LinSolvSol_GS);
 
+    int n_rows_1 = 3;
+    int n_cols_1 = 3;
+	
+    MatrixXd Eq(n_rows_1, n_cols_1);
+    VectorXd b(n_rows_1);
+    
+    Eq << 1.0, 2.0, 3.0, 
+          2.0, -3.0, -5.0,
+          -6.0, -8.0, 1.0;
+
+    b << -7.0, 9.0, -22.0;
+    
     linear_solve LinSolv_Eigen(Eq, b, n_rows_1, n_cols_1, "Gauss-Elimination", 100);
     vector<double> LinSolvSol_GS;
     LinSolv_Eigen.solve();

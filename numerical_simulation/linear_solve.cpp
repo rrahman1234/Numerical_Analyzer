@@ -284,11 +284,14 @@ void linear_solve::solve()
         cout << "Solving" << endl;
         cout << "EigenEqnMat:" << endl << EigenEqMat << endl;
         cout << "Right side of the equation" << endl << Eigen_b_right_side << endl;
+        solution.resize(num_rows, 1);
         
         int N_mat = EigenEqMat.rows();
         bool converged_done = false;
         bool not_applicable = false;
         
+        int i, j;
+
         if(!isApplicable_gaussElimination<Eigen::MatrixXd>(EigenEqMat))
         {
             cout << "Not Applicable: Diagonal element can not be zero" << endl;
@@ -296,23 +299,34 @@ void linear_solve::solve()
         }
         else
         {
-            for(int j=0; j < EigenEqMat.cols(); j++)
+            for(j=0; j < EigenEqMat.cols(); j++)
             {
-                for(int i=j+1; i < EigenEqMat.rows(); i++)
+                for(i=j+1; i < EigenEqMat.rows(); i++)
                 {
                     double ratio = EigenEqMat(i,j)/EigenEqMat(j,j);
-                
                     for(int k=0; k < EigenEqMat.cols(); k++)
                     {
                         EigenEqMat(i,k) = EigenEqMat(i,k) - ratio*EigenEqMat(j,k);
-                        Eigen_b_right_side(i) = Eigen_b_right_side(i) - ratio*EigenEqMat(j,k);
                     }
-
+                    Eigen_b_right_side(i) = Eigen_b_right_side(i) - ratio*Eigen_b_right_side(j);
                 }
             }
         }
-    cout << EigenEqMat << endl;
-    cout << Eigen_b_right_side << endl;
+        
+
+        //Solution: Back Substitution
+        solution(EigenEqMat.rows()-1) = Eigen_b_right_side(EigenEqMat.rows()-1)/EigenEqMat(EigenEqMat.rows()-1, EigenEqMat.cols()-1); 
+        for(int i=EigenEqMat.rows()-2; i >= 0; i--)
+        {
+            int sum = 0;
+            
+            for(int j=i+1; j < EigenEqMat.cols(); j++)
+            {
+                sum = sum + EigenEqMat(i,j)*solution(j);
+            }
+            solution(i) = (Eigen_b_right_side(i) - sum)/EigenEqMat(i,i);
+        }
+        solution_vector.insert(solution_vector.end(), std::make_move_iterator(solution.data()), std::make_move_iterator(solution.data() + solution.size()));
     }
 }
 
